@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Doador {
 	
@@ -27,6 +29,7 @@ public class Doador {
 	private String cpf;
 	
 	@OneToMany(mappedBy = "doador")
+	@JsonIgnore()
 	private List<Doacao> doacoes;
 	
 	@OneToMany

@@ -15,8 +15,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.compass.projetodoacao.entities.enums.Status;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Doacao {
@@ -25,7 +24,6 @@ public class Doacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull
 	private LocalDate dataCadastro;
 	
@@ -42,6 +40,7 @@ public class Doacao {
 	private ONG ong;
 	
 	@OneToMany(mappedBy = "doacao")
+	@JsonIgnore()
 	private List<Item> itens;
 
 	public Integer getId() {

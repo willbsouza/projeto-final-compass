@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ONG {
 	
@@ -23,6 +25,7 @@ public class ONG {
 	private String nome;
 	
 	@OneToMany(mappedBy = "ong")
+	@JsonIgnore()
 	private List<Doacao> doacoes;
 	
 	@OneToMany
