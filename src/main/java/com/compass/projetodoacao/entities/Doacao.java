@@ -88,9 +88,11 @@ public class Doacao {
 		return itens;
 	}
 
-	public void setItens(List<Item> itens) {
-		this.itens = itens;
+	public void adicionarItem(Item item) {
+		itens.add(item);
 	}
-	 
 	
+	public void removerItem(Item item) {
+		itens.remove(item);
+	}
 }
