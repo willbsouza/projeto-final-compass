@@ -17,14 +17,6 @@ public class Telefone {
 	@NotNull
 	@NotEmpty
 	private String numero;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "doador_id")
-//	private Doador doador;
-//	
-//	@ManyToOne
-//	@JoinColumn(name = "ong_id")
-//	private ONG ong;
 
 	public Integer getId() {
 		return id;

@@ -1,20 +1,15 @@
 package com.compass.projetodoacao.dto;
 
-import java.time.LocalDate;
-
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
-import com.compass.projetodoacao.entities.enums.Status;
+import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class DoacaoFormDTO {
 	
 	//Doacao
 	private Integer id;
-	
-	private LocalDate dataCadastro;
-	
-	private Status status;
 	
 	@NotNull
 	private Integer id_doador;
@@ -24,9 +19,9 @@ public class DoacaoFormDTO {
 	
 	//Item
 	
-	@NotEmpty
 	@NotNull
-	private String nomeItem;
+	@Enumerated(EnumType.STRING)
+	private Tipo tipoItem;
 	
 	@NotNull
 	private Integer quantidade;
@@ -40,22 +35,6 @@ public class DoacaoFormDTO {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public LocalDate getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(LocalDate dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public Integer getId_doador() {
@@ -74,12 +53,12 @@ public class DoacaoFormDTO {
 		this.id_ong = id_ong;
 	}
 
-	public String getNomeItem() {
-		return nomeItem;
+	public Tipo getTipoItem() {
+		return tipoItem;
 	}
 
-	public void setNomeItem(String nomeItem) {
-		this.nomeItem = nomeItem;
+	public void setTipoItem(Tipo tipoItem) {
+		this.tipoItem = tipoItem;
 	}
 
 	public Integer getQuantidade() {

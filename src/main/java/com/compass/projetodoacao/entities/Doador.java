@@ -1,5 +1,6 @@
 package com.compass.projetodoacao.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -34,11 +35,11 @@ public class Doador {
 	
 	@OneToMany
 	@JoinColumn(name = "idDoador")
-	private List<Telefone> telefones;
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	@OneToMany
 	@JoinColumn(name = "idDoador")
-	private List<Endereco> enderecos;
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	
 	public Integer getId() {
 		return id;
@@ -67,25 +68,28 @@ public class Doador {
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-
+	
 	public List<Endereco> getEnderecos() {
 		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
 	}
 
 	public List<Doacao> getDoacoes() {
 		return doacoes;
 	}
-
-	public void setDoacoes(List<Doacao> doacoes) {
-		this.doacoes = doacoes;
+	
+	public void adicionarTelefone(Telefone telefone) {
+		this.telefones.add(telefone);
 	}
-		
+	
+	public void removerTelefone(Telefone telefone) {
+		this.telefones.remove(telefone);
+	}
+
+	public void adicionarEndereco(Endereco endereco) {
+		this.enderecos.add(endereco);
+	}
+	
+	public void removerEndereco(Endereco endereco) {
+		this.enderecos.remove(endereco);
+	}		
 }

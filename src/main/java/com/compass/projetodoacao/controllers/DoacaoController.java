@@ -3,10 +3,9 @@ package com.compass.projetodoacao.controllers;
 import java.net.URI;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,9 +31,9 @@ public class DoacaoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Doacao> save(@RequestBody DoacaoFormDTO doacao, UriComponentsBuilder uriBuilder){
-		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacao.getId()).toUri();		
-		return ResponseEntity.created(uri).body(doacaoService.save(doacao));
+	public ResponseEntity<Doacao> save(@RequestBody DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder){
+		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
 
 }

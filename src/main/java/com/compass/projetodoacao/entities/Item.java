@@ -1,13 +1,20 @@
 package com.compass.projetodoacao.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+import com.compass.projetodoacao.entities.enums.Tipo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Item {
@@ -16,16 +23,16 @@ public class Item {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotEmpty
 	@NotNull
-	private String nome;
+	@Enumerated(EnumType.STRING)
+	private Tipo tipo;
 	
 	@NotNull
 	private Integer quantidade;
 	
-	@ManyToOne
-	@JoinColumn(name = "doacao_id")
-	private Doacao doacao;
+	@OneToMany(mappedBy = "item")
+	@JsonIgnore()
+	private List<Doacao> doacoes;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
@@ -39,12 +46,12 @@ public class Item {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Tipo getTipo() {
+		return tipo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
 	}
 
 	public Integer getQuantidade() {
@@ -55,12 +62,16 @@ public class Item {
 		this.quantidade = quantidade;
 	}
 
-	public Doacao getDoacao() {
-		return doacao;
+	public List<Doacao> getDoacoes() {
+		return doacoes;
 	}
 
-	public void setDoacao(Doacao doacao) {
-		this.doacao = doacao;
+	public void adicionarDoacao(Doacao doacao) {
+		this.doacoes.add(doacao);
+	}
+	
+	public void removerDoacao(Doacao doacao) {
+		this.doacoes.remove(doacao);
 	}
 
 	public Categoria getCategoria() {
@@ -70,6 +81,4 @@ public class Item {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
-	
 }

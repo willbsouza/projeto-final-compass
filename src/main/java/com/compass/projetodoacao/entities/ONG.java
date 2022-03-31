@@ -1,5 +1,6 @@
 package com.compass.projetodoacao.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class ONG {
 	
 	@NotNull
 	@NotEmpty
-	private String nome;
+	private String filial;
 	
 	@OneToMany(mappedBy = "ong")
 	@JsonIgnore()
@@ -30,11 +31,11 @@ public class ONG {
 	
 	@OneToMany
 	@JoinColumn(name = "idOng")
-	private List<Telefone> telefones;
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	@OneToMany
 	@JoinColumn(name = "idOng")
-	private List<Endereco> enderecos;
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
 
 	public Integer getId() {
 		return id;
@@ -43,38 +44,41 @@ public class ONG {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getNome() {
-		return nome;
+	
+	public String getFilial() {
+		return filial;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setFilial(String filial) {
+		this.filial = filial;
 	}
 
 	public List<Doacao> getDoacoes() {
 		return doacoes;
 	}
 
-	public void setDoacoes(List<Doacao> doacoes) {
-		this.doacoes = doacoes;
-	}
-
 	public List<Telefone> getTelefones() {
 		return telefones;
-	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
 	}
 
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
+	
+	public void adicionarTelefone(Telefone telefone) {
+		this.telefones.add(telefone);
 	}
 	
+	public void removerTelefone(Telefone telefone) {
+		this.telefones.remove(telefone);
+	}
+
+	public void adicionarEndereco(Endereco endereco) {
+		this.enderecos.add(endereco);
+	}
+	
+	public void removerEndereco(Endereco endereco) {
+		this.enderecos.remove(endereco);
+	}		
 	
 }

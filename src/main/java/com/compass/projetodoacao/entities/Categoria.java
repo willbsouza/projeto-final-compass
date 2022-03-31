@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categoria {
 
@@ -22,6 +24,7 @@ public class Categoria {
 	private String nome;
 	
 	@OneToMany(mappedBy = "categoria")
+	@JsonIgnore()
 	private List<Item> itens;
 
 	public Integer getId() {
@@ -42,9 +45,5 @@ public class Categoria {
 
 	public List<Item> getItens() {
 		return itens;
-	}
-
-	public void setItens(List<Item> itens) {
-		this.itens = itens;
 	}
 }
