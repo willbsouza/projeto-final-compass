@@ -3,6 +3,8 @@ package com.compass.projetodoacao.controllers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,7 @@ public class ONGController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<ONG> save(@RequestBody ONGFormDTO ongDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<ONG> save(@RequestBody @Valid ONGFormDTO ongDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/doadores").buildAndExpand(ongDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(ongService.save(ongDTO));
 	}

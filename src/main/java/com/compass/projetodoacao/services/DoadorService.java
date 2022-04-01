@@ -10,30 +10,35 @@ import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.repositories.DoadorRepository;
+import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
+import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @Service
 public class DoadorService {
-	
+
 	@Autowired
 	private DoadorRepository doadorRepository;
-	
+
 	@Autowired
 	private TelefoneService telefoneService;
-	
+
 	@Autowired
 	private EnderecoService enderecoService;
 
 	public Doador save(DoadorFormDTO doadorDTO) {
-		
+
 		Endereco endereco = enderecoService.saveEnderecoDoador(doadorDTO);
 		Telefone telefone = telefoneService.saveTelefoneDoador(doadorDTO);
-		
-		Doador doador = new Doador();
-		doador.adicionarEndereco(endereco);
-		doador.adicionarTelefone(telefone);
-		doador.setCpf(doadorDTO.getCpfDoador());
-		doador.setNome(doadorDTO.getNomeDoador());
-		return doadorRepository.save(doador);
+		try {
+			Doador doador = new Doador();
+			doador.adicionarEndereco(endereco);
+			doador.adicionarTelefone(telefone);
+			doador.setCpf(doadorDTO.getCpfDoador());
+			doador.setNome(doadorDTO.getNomeDoador());
+			return doadorRepository.save(doador);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
 	}
 
 	public List<Doador> findAll() {
@@ -41,7 +46,8 @@ public class DoadorService {
 	}
 
 	public Doador findById(Integer id) {
-		//tratar exceção
-		return doadorRepository.findById(id).orElse(null);
+
+		return doadorRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 	}
 }

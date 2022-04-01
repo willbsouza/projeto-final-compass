@@ -2,6 +2,8 @@ package com.compass.projetodoacao.services;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,35 +14,49 @@ import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.repositories.CategoriaRepository;
 import com.compass.projetodoacao.repositories.ItemRepository;
+import com.compass.projetodoacao.services.exception.HttpMessageNotReadableException;
+import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
+import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @Service
 public class ItemService {
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
+
 	@PostMapping
 	@Transactional
-	public Item save(DoacaoFormDTO doacaoDTO) {
-		
-		Categoria categoria = categoriaRepository.findById(doacaoDTO.getId_categoria()).orElse(null); //Tratar exceção
+	public Item save(@Valid DoacaoFormDTO doacaoDTO) {
+
+		Categoria categoria = categoriaRepository.findById(doacaoDTO.getId_categoria()).orElseThrow(
+				() -> new ObjectNotFoundException("ID: " + doacaoDTO.getId_categoria() + " não encontrado."));
 		Item item = itemRepository.findByTipo(doacaoDTO.getTipoItem());
-		if(item != null) {
-			item.setQuantidade(item.getQuantidade() + doacaoDTO.getQuantidade());
-			return item;
-		} else {
-			Item itemNovo = new Item();
-			itemNovo.setQuantidade(doacaoDTO.getQuantidade());
-			itemNovo.setTipo(doacaoDTO.getTipoItem());
-			itemNovo.setCategoria(categoria);
-			return itemRepository.save(itemNovo);
+		try {
+			if (item != null) {
+				item.setQuantidade(item.getQuantidade() + doacaoDTO.getQuantidade());
+				return item;
+			} else {
+				Item itemNovo = new Item();
+				itemNovo.setQuantidade(doacaoDTO.getQuantidade());
+				itemNovo.setTipo(doacaoDTO.getTipoItem());
+				itemNovo.setCategoria(categoria);
+				return itemRepository.save(itemNovo);
+			}
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		} catch (HttpMessageNotReadableException e) {
+			throw new HttpMessageNotReadableException(e.getMessage());
 		}
 	}
 
 	public List<Item> findAll() {
 		return itemRepository.findAll();
+	}
+
+	public Item findById(Integer id) {
+		return itemRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 	}
 }
