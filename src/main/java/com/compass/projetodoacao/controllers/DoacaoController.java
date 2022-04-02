@@ -24,32 +24,33 @@ import com.compass.projetodoacao.services.DoacaoService;
 @RestController
 @RequestMapping("/doacoes")
 public class DoacaoController {
-	
+
 	@Autowired
 	private DoacaoService doacaoService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Doacao>> findAll(){
+	public ResponseEntity<List<Doacao>> findAll() {
 		return ResponseEntity.ok(doacaoService.findAll());
 	}
-	
+
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Doacao> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<Doacao> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder) {
 		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<DoacaoFormDTO> consultaPorId(@PathVariable Integer id) {
-		DoacaoFormDTO obj = doacaoService.consultaPorId(id);
+	public ResponseEntity<Doacao> consultaPorId(@PathVariable Integer id) {
+		Doacao obj = doacaoService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	@Transactional
 	public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-		doacaoService.deletar(id);
+		doacaoService.deleteById(id);
 		return ResponseEntity.noContent().build();
 
-	};
+	}
 }
