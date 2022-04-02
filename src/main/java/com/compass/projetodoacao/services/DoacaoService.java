@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
 import com.compass.projetodoacao.entities.Doacao;
@@ -60,4 +61,15 @@ public class DoacaoService {
 		return doacaoRepository.findAll();
 	}
 
+	public Doacao findById(@PathVariable Integer id) {
+
+		Doacao obj = doacaoRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		return obj;
+	}
+
+	public void deleteById(Integer id) {
+		doadorRepository.deleteById(id);
+
+	}
 }
