@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.compass.projetodoacao.services.exception.InvalidQuantityException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @RestControllerAdvice
@@ -46,6 +47,17 @@ public class ResourceExceptionHandler {
 		erro.setStatus(HttpStatus.BAD_REQUEST.value());
 		erro.setError("Entrada inválida. Selecione uma entrada válida.");
 		erro.setMessage("Selecione uma das entradas válidas a seguir: " + e.getCause().getMessage());
+		erro.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	
+	@ExceptionHandler(InvalidQuantityException.class)
+	public ResponseEntity<StandardError> camposInvalidos(InvalidQuantityException e, HttpServletRequest request){
+		StandardError erro = new StandardError();
+		erro.setTimestamp(Instant.now());
+		erro.setStatus(HttpStatus.BAD_REQUEST.value());
+		erro.setError("Entrada inválida. Valor deve ser no mínimo 1.");
+		erro.setMessage(e.getMessage());
 		erro.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
