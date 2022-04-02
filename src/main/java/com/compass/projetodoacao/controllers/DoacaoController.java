@@ -8,7 +8,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,5 +39,17 @@ public class DoacaoController {
 		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<DoacaoFormDTO> consultaPorId(@PathVariable Integer id) {
+		DoacaoFormDTO obj = doacaoService.consultaPorId(id);
+		return ResponseEntity.ok().body(obj);
+	}
 
+	@DeleteMapping(value = "/{id}")
+	@Transactional
+	public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+		doacaoService.deletar(id);
+		return ResponseEntity.noContent().build();
+
+	};
 }
