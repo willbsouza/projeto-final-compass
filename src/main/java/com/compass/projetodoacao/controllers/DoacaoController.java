@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
 import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.services.DoacaoService;
@@ -41,8 +42,8 @@ public class DoacaoController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Doacao> consultaPorId(@PathVariable Integer id) {
-		Doacao obj = doacaoService.findById(id);
+	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
+		DoacaoDTO obj = doacaoService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

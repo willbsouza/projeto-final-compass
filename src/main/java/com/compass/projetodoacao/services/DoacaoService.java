@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
 import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.entities.Doador;
@@ -35,6 +37,7 @@ public class DoacaoService {
 
 	@Autowired
 	private ItemService itemService;
+	private ModelMapper mapper;
 
 	public Doacao save(@Valid DoacaoFormDTO doacaoDTO) {
 
@@ -61,11 +64,11 @@ public class DoacaoService {
 		return doacaoRepository.findAll();
 	}
 
-	public Doacao findById(@PathVariable Integer id) {
+	public DoacaoDTO findById(@PathVariable Integer id) {
 
 		Doacao obj = doacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return obj;
+		return mapper.map(doacaoRepository.save(obj),DoacaoDTO.class);
 	}
 
 	public void deleteById(Integer id) {
