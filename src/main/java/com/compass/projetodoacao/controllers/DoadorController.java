@@ -8,9 +8,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +44,18 @@ public class DoadorController {
 	public ResponseEntity<DoadorDTO> save(@RequestBody @Valid DoadorFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/doadores").buildAndExpand(doadorDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doadorService.save(doadorDTO));
+	}
+	
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<DoadorDTO> update(@PathVariable Integer id, @RequestBody @Valid DoadorFormDTO doadorDTO){
+		return ResponseEntity.ok(doadorService.update(id, doadorDTO));
+	}
+	
+	@DeleteMapping
+	@Transactional
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+		doadorService.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 }

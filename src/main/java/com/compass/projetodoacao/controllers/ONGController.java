@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,8 +42,14 @@ public class ONGController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<ONGDTO> save(@RequestBody @Valid ONGFormDTO ongDTO, UriComponentsBuilder uriBuilder){
-		URI uri = uriBuilder.path("/doadores").buildAndExpand(ongDTO.getId()).toUri();
+		URI uri = uriBuilder.path("/ongs").buildAndExpand(ongDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(ongService.save(ongDTO));
+	}
+	
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<ONGDTO> update(@PathVariable Integer id, @RequestBody @Valid ONGFormDTO ongDTO){
+		return ResponseEntity.ok(ongService.update(id, ongDTO));
 	}
 	
 	@DeleteMapping

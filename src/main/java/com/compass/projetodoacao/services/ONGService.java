@@ -56,12 +56,27 @@ public class ONGService {
 		}
 	}
 	
-	private ONGDTO converter(ONG ong) {
-		return new ONGDTO(ong);
+	public ONGDTO update(Integer id, @Valid ONGFormDTO ongDTO) {
+		ONG ong = ongRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		Endereco endereco = enderecoService.saveEnderecoONG(ongDTO);
+		Telefone telefone = telefoneService.saveTelefoneONG(ongDTO);
+		try {
+			ong.adicionarEndereco(endereco);
+			ong.adicionarTelefone(telefone);
+			ong.setFilial(ongDTO.getFilialONG());
+			return converter(ong);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
 	}
 
 	public void deleteById(Integer id) {
 		findById(id);
 		ongRepository.deleteById(id);		
+	}
+
+	private ONGDTO converter(ONG ong) {
+		return new ONGDTO(ong);
 	}
 }

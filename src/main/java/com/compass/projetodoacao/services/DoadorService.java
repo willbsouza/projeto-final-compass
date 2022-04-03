@@ -3,6 +3,8 @@ package com.compass.projetodoacao.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +58,28 @@ public class DoadorService {
 		return converter(doador);
 	}
 	
+	public void deleteById(Integer id) {
+		findById(id);
+		doadorRepository.deleteById(id);		
+	}
+	
 	private DoadorDTO converter(Doador doador) {
 		return new DoadorDTO(doador);
+	}
+
+	public DoadorDTO update(Integer id, @Valid DoadorFormDTO doadorDTO) {
+		Doador doador = doadorRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		Endereco endereco = enderecoService.saveEnderecoDoador(doadorDTO);
+		Telefone telefone = telefoneService.saveTelefoneDoador(doadorDTO);
+		try {
+			doador.adicionarEndereco(endereco);
+			doador.adicionarTelefone(telefone);
+			doador.setCpf(doadorDTO.getCpfDoador());
+			doador.setNome(doadorDTO.getNomeDoador());
+			return converter(doador);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
 	}
 }
