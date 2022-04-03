@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.compass.projetodoacao.dto.DoacaoFormDTO;
 import com.compass.projetodoacao.entities.Categoria;
-import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.services.CategoriaService;
 
 @RestController

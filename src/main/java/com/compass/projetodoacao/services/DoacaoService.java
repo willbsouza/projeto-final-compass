@@ -2,10 +2,10 @@ package com.compass.projetodoacao.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +20,7 @@ import com.compass.projetodoacao.repositories.DoacaoRepository;
 import com.compass.projetodoacao.repositories.DoadorRepository;
 import com.compass.projetodoacao.repositories.ONGRepository;
 import com.compass.projetodoacao.services.exception.HttpMessageNotReadableException;
+import com.compass.projetodoacao.services.exception.InvalidQuantityException;
 import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
@@ -37,22 +38,26 @@ public class DoacaoService {
 
 	@Autowired
 	private ItemService itemService;
-	private ModelMapper mapper;
 
-	public Doacao save(@Valid DoacaoFormDTO doacaoDTO) {
+	public DoacaoDTO save(@Valid DoacaoFormDTO doacaoDTO) {
 
 		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
 		Doador doador = doadorRepository.findById(doacaoDTO.getId_doador()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
+		if (doacaoDTO.getQuantidadeItem() < 1) {
+			throw new InvalidQuantityException("Quantidade menor que 1.");
+		}
 		try {
 			Item item = itemService.save(doacaoDTO);
 			Doacao doacao = new Doacao();
 			doacao.setItem(item);
+			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setOng(ong);
 			doacao.setDoador(doador);
-			return doacaoRepository.save(doacao);
+			doacaoRepository.save(doacao);
+			return converter(doacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		} catch (HttpMessageNotReadableException e) {
@@ -60,19 +65,23 @@ public class DoacaoService {
 		}
 	}
 
-	public List<Doacao> findAll() {
-		return doacaoRepository.findAll();
+	public List<DoacaoDTO> findAll() {
+		List<Doacao> doacaoList = doacaoRepository.findAll();
+		return doacaoList.stream().map(d -> converter(d)).collect(Collectors.toList());
 	}
 
 	public DoacaoDTO findById(@PathVariable Integer id) {
-
-		Doacao obj = doacaoRepository.findById(id)
+		Doacao doacao = doacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return mapper.map(doacaoRepository.save(obj),DoacaoDTO.class);
+		return converter(doacao);
 	}
 
 	public void deleteById(Integer id) {
+		findById(id);
 		doadorRepository.deleteById(id);
-
+	}
+	
+	private DoacaoDTO converter(Doacao doacao) {
+		return new DoacaoDTO(doacao);
 	}
 }

@@ -1,7 +1,6 @@
 package com.compass.projetodoacao.entities;
 
 import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +19,13 @@ public class Doacao {
 	@NotNull
 	private LocalDate dataCadastro;
 	
+	@NotNull
+	private Integer quantidade;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id")
+	private Item item;
+	
 	@ManyToOne
 	@JoinColumn(name = "doador_id")
 	private Doador doador;
@@ -28,10 +34,6 @@ public class Doacao {
 	@JoinColumn(name = "ong_id")
 	private ONG ong;
 	
-	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private Item item;
-
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +48,14 @@ public class Doacao {
 
 	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	public Doador getDoador() {

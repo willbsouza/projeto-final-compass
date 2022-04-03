@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
-import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.services.DoacaoService;
 
 @RestController
@@ -30,28 +29,26 @@ public class DoacaoController {
 	private DoacaoService doacaoService;
 
 	@GetMapping
-	public ResponseEntity<List<Doacao>> findAll() {
+	public ResponseEntity<List<DoacaoDTO>> findAll() {
 		return ResponseEntity.ok(doacaoService.findAll());
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Doacao> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<DoacaoDTO> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder) {
 		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
 
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
-		DoacaoDTO obj = doacaoService.findById(id);
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(doacaoService.findById(id));
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
 		doacaoService.deleteById(id);
 		return ResponseEntity.noContent().build();
-
 	}
 }

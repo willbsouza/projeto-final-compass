@@ -1,12 +1,14 @@
 package com.compass.projetodoacao.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.compass.projetodoacao.dto.ONGDTO;
 import com.compass.projetodoacao.dto.ONGFormDTO;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.ONG;
@@ -27,16 +29,18 @@ public class ONGService {
 	@Autowired
 	private EnderecoService enderecoService;
 
-	public List<ONG> findAll() {
-		return ongRepository.findAll();
+	public List<ONGDTO> findAll() {
+		List<ONG> listONG = ongRepository.findAll();
+		return listONG.stream().map(o -> converter(o)).collect(Collectors.toList());
 	}
 
-	public ONG findById(Integer id) {
-		return ongRepository.findById(id)
+	public ONGDTO findById(Integer id) {
+		ONG ong = ongRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		return converter(ong);
 	}
 
-	public ONG save(@Valid ONGFormDTO ongDTO) {
+	public ONGDTO save(@Valid ONGFormDTO ongDTO) {
 
 		Endereco endereco = enderecoService.saveEnderecoONG(ongDTO);
 		Telefone telefone = telefoneService.saveTelefoneONG(ongDTO);
@@ -45,9 +49,19 @@ public class ONGService {
 			ong.adicionarEndereco(endereco);
 			ong.adicionarTelefone(telefone);
 			ong.setFilial(ongDTO.getFilialONG());
-			return ongRepository.save(ong);
+			ongRepository.save(ong);
+			return converter(ong);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
+	}
+	
+	private ONGDTO converter(ONG ong) {
+		return new ONGDTO(ong);
+	}
+
+	public void deleteById(Integer id) {
+		findById(id);
+		ongRepository.deleteById(id);		
 	}
 }

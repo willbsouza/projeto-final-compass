@@ -1,6 +1,7 @@
 package com.compass.projetodoacao.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
+import com.compass.projetodoacao.dto.ItemDTO;
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.repositories.CategoriaRepository;
@@ -36,18 +38,19 @@ public class ItemService {
 				() -> new ObjectNotFoundException("ID: " + doacaoDTO.getId_categoria() + " não encontrado."));
 		Item item = itemRepository.findByTipo(doacaoDTO.getTipoItem());
 		try {
-			if(doacaoDTO.getQuantidade() < 1) {
+			if(doacaoDTO.getQuantidadeItem() < 1) {
 				throw new InvalidQuantityException("Quantidade menor que 1.");
 			}
 			if (item != null) {
-				item.setQuantidade(item.getQuantidade() + doacaoDTO.getQuantidade());
+				item.setQuantidadeTotal(item.getQuantidadeTotal() + doacaoDTO.getQuantidadeItem());
 				return item;
 			} else {
 				Item itemNovo = new Item();
-				itemNovo.setQuantidade(doacaoDTO.getQuantidade());
+				itemNovo.setQuantidadeTotal(doacaoDTO.getQuantidadeItem());
 				itemNovo.setTipo(doacaoDTO.getTipoItem());
 				itemNovo.setCategoria(categoria);
-				return itemRepository.save(itemNovo);
+				itemRepository.save(itemNovo);
+				return itemNovo;
 			}
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
@@ -56,25 +59,31 @@ public class ItemService {
 		}
 	}
 
-	public List<Item> findAll() {
-		return itemRepository.findAll();
+	private ItemDTO converter(Item item) {
+		return new ItemDTO(item);
 	}
 
-	public Item findById(Integer id) {
-		return itemRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+	public List<ItemDTO> findAll() {
+		List<Item> listItem = itemRepository.findAll();
+		return listItem.stream().map(i -> converter(i)).collect(Collectors.toList());
+	}
+
+	public ItemDTO findById(Integer id) {
+		Item item = itemRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		return converter(item);	
 	}
 	
-	public Item update(Integer id, @Valid Item item) {
+	public ItemDTO update(Integer id, @Valid Item item) {
 		Item obj = itemRepository.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		if(item.getQuantidade() < 1) {
+		if(item.getQuantidadeTotal() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}
 		if (obj != null) {
-			obj.setQuantidade(item.getQuantidade());
+			obj.setQuantidadeTotal(item.getQuantidadeTotal());
 			obj.setTipo(item.getTipo());
 		}
-		return obj;
+		return converter(obj);
 	}
 
 	public void deleteById(Integer id) {

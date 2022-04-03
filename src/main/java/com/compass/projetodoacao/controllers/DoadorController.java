@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.compass.projetodoacao.dto.DoadorDTO;
 import com.compass.projetodoacao.dto.DoadorFormDTO;
-import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.services.DoadorService;
 
 @RestController
@@ -28,18 +28,18 @@ public class DoadorController {
 	private DoadorService doadorService;
 	
 	@GetMapping
-	public ResponseEntity<List<Doador>> findAll(){
+	public ResponseEntity<List<DoadorDTO>> findAll(){
 		return ResponseEntity.ok(doadorService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Doador> findById(@PathVariable Integer id){
+	public ResponseEntity<DoadorDTO> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(doadorService.findById(id));
 	}
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Doador> save(@RequestBody @Valid DoadorFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<DoadorDTO> save(@RequestBody @Valid DoadorFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/doadores").buildAndExpand(doadorDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doadorService.save(doadorDTO));
 	}

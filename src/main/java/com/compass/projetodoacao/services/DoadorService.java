@@ -1,10 +1,12 @@
 package com.compass.projetodoacao.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.compass.projetodoacao.dto.DoadorDTO;
 import com.compass.projetodoacao.dto.DoadorFormDTO;
 import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Endereco;
@@ -25,7 +27,7 @@ public class DoadorService {
 	@Autowired
 	private EnderecoService enderecoService;
 
-	public Doador save(DoadorFormDTO doadorDTO) {
+	public DoadorDTO save(DoadorFormDTO doadorDTO) {
 
 		Endereco endereco = enderecoService.saveEnderecoDoador(doadorDTO);
 		Telefone telefone = telefoneService.saveTelefoneDoador(doadorDTO);
@@ -35,19 +37,26 @@ public class DoadorService {
 			doador.adicionarTelefone(telefone);
 			doador.setCpf(doadorDTO.getCpfDoador());
 			doador.setNome(doadorDTO.getNomeDoador());
-			return doadorRepository.save(doador);
+			doadorRepository.save(doador);
+			return converter(doador);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
 	}
 
-	public List<Doador> findAll() {
-		return doadorRepository.findAll();
+	public List<DoadorDTO> findAll() {		
+		List<Doador> doadorList = doadorRepository.findAll();
+		return doadorList.stream().map(d -> converter(d)).collect(Collectors.toList());
 	}
 
-	public Doador findById(Integer id) {
+	public DoadorDTO findById(Integer id) {
 
-		return doadorRepository.findById(id)
+		Doador doador = doadorRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		return converter(doador);
+	}
+	
+	private DoadorDTO converter(Doador doador) {
+		return new DoadorDTO(doador);
 	}
 }

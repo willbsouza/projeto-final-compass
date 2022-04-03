@@ -28,7 +28,7 @@ public class Item {
 	private Tipo tipo;
 	
 	@NotNull
-	private Integer quantidade;
+	private Integer quantidadeTotal;
 	
 	@OneToMany(mappedBy = "item")
 	@JsonIgnore()
@@ -54,12 +54,12 @@ public class Item {
 		this.tipo = tipo;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
+	public Integer getQuantidadeTotal() {
+		return quantidadeTotal;
 	}
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
+	public void setQuantidadeTotal(Integer quantidadeTotal) {
+		this.quantidadeTotal = quantidadeTotal;
 	}
 
 	public List<Doacao> getDoacoes() {

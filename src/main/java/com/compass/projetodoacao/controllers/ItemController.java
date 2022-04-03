@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.compass.projetodoacao.dto.ItemDTO;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.services.ItemService;
 
@@ -25,17 +26,17 @@ public class ItemController {
 	private ItemService itemService;
 	
 	@GetMapping
-	public ResponseEntity<List<Item>> findAll(){
+	public ResponseEntity<List<ItemDTO>> findAll(){
 		return ResponseEntity.ok(itemService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Item> findById(@PathVariable Integer id){
+	public ResponseEntity<ItemDTO> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(itemService.findById(id));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Item> update(@PathVariable Integer id, @RequestBody @Valid Item item){
+	public ResponseEntity<ItemDTO> update(@PathVariable Integer id, @RequestBody @Valid Item item){
 		return ResponseEntity.ok(itemService.update(id, item));
 	}
 	

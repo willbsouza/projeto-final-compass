@@ -3,45 +3,50 @@ package com.compass.projetodoacao.dto;
 import java.time.LocalDate;
 
 import com.compass.projetodoacao.entities.Doacao;
+import com.compass.projetodoacao.entities.enums.Tipo;
 
 
 public class DoacaoDTO {
+	
 	private Integer id;
 	private LocalDate dataCadastro;
-	private DoadorDTO doador;
-	private ONGDTO ong;
-	private ItemDTO item;
+	private String nomeDoador;
+	private String filialOng;
+	private Tipo item;
+	private Integer quantidadeItem;
 	
+	public DoacaoDTO() {}
 	
 	public DoacaoDTO(Doacao doacao) {
 		this.id = doacao.getId();
 		this.dataCadastro = doacao.getDataCadastro();
-	
+		this.nomeDoador = doacao.getDoador().getNome();
+		this.filialOng = doacao.getOng().getFilial();
+		this.item = doacao.getItem().getTipo();
+		this.quantidadeItem = doacao.getQuantidade();
 	}
-
 
 	public Integer getId() {
 		return id;
 	}
 
-
 	public LocalDate getDataCadastro() {
 		return dataCadastro;
 	}
 
-
-	public DoadorDTO getDoador() {
-		return doador;
+	public String getNomeDoador() {
+		return nomeDoador;
 	}
 
-
-	public ONGDTO getOng() {
-		return ong;
+	public String getFilialOng() {
+		return filialOng;
 	}
 
-
-	public ItemDTO getItem() {
+	public Tipo getItem() {
 		return item;
 	}
 
+	public Integer getQuantidadeItem() {
+		return quantidadeItem;
+	}
 }

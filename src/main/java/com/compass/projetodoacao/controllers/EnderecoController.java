@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.compass.projetodoacao.entities.Endereco;
-import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.services.EnderecoService;
 
 @RestController
