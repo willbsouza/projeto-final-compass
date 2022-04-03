@@ -55,4 +55,7 @@ public class EnderecoService {
 	public Endereco findById(Integer id) {
 		return enderecoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 	}
-}
+
+	
+	}
+

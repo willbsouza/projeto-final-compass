@@ -1,14 +1,22 @@
 package com.compass.projetodoacao.controllers;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.compass.projetodoacao.dto.DoadorFormDTO;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.services.EnderecoService;
 
@@ -28,4 +36,12 @@ public class EnderecoController {
 	public ResponseEntity<Endereco> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(enderecoService.findById(id));
 	}
+	
+	@PostMapping
+	@Transactional
+	public ResponseEntity<Endereco> save(@RequestBody @Valid DoadorFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
+		URI uri = uriBuilder.path("/enderecos").buildAndExpand(doadorDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(enderecoService.saveEnderecoDoador(doadorDTO));
+	}
+	
 }
