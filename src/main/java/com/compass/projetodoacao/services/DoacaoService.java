@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
@@ -70,17 +69,43 @@ public class DoacaoService {
 		return doacaoList.stream().map(d -> converter(d)).collect(Collectors.toList());
 	}
 
-	public DoacaoDTO findById(@PathVariable Integer id) {
+	public DoacaoDTO findById(Integer id) {
 		Doacao doacao = doacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		return converter(doacao);
+	}
+
+	public DoacaoDTO update(Integer id, @Valid DoacaoFormDTO doacaoDTO) {
+		
+		Doacao doacao = doacaoRepository.findById(id).orElseThrow(
+				() -> new ObjectNotFoundException("Doação com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
+		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
+				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
+		Doador doador = doadorRepository.findById(doacaoDTO.getId_doador()).orElseThrow(
+				() -> new ObjectNotFoundException("Doador com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
+		if (doacaoDTO.getQuantidadeItem() < 1) {
+			throw new InvalidQuantityException("Quantidade menor que 1.");
+		}
+		try {
+			Item item = itemService.save(doacaoDTO);
+			doacao.setItem(item);
+			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
+			doacao.setDataCadastro(LocalDate.now());
+			doacao.setOng(ong);
+			doacao.setDoador(doador);
+			return converter(doacao);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		} catch (HttpMessageNotReadableException e) {
+			throw new HttpMessageNotReadableException(e.getMessage());
+		}
 	}
 
 	public void deleteById(Integer id) {
 		findById(id);
 		doadorRepository.deleteById(id);
 	}
-	
+
 	private DoacaoDTO converter(Doacao doacao) {
 		return new DoacaoDTO(doacao);
 	}

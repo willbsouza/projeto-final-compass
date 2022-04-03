@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,11 @@ public class DoacaoController {
 	public ResponseEntity<List<DoacaoDTO>> findAll() {
 		return ResponseEntity.ok(doacaoService.findAll());
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(doacaoService.findById(id));
+	}
 
 	@PostMapping
 	@Transactional
@@ -39,10 +45,11 @@ public class DoacaoController {
 		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok().body(doacaoService.findById(id));
+	
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<DoacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid DoacaoFormDTO doacaoDTO){
+		return ResponseEntity.ok(doacaoService.update(id, doacaoDTO));
 	}
 
 	@DeleteMapping("/{id}")
