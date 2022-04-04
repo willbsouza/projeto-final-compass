@@ -27,6 +27,7 @@ public class ONGFormDTO {
 	private String estado;
 	@NotNull @NotEmpty
 	private String cep;
+	
 	public Integer getId() {
 		return id;
 	}

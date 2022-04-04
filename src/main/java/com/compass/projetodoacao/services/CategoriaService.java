@@ -38,7 +38,7 @@ public class CategoriaService {
 	public Categoria update(@Valid Integer id, Categoria categoria) {
 		try {
 			Categoria obj = findById(id);
-			obj.getNome();
+			obj.setNome(categoria.getNome());
 			return obj;
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());

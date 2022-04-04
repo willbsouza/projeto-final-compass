@@ -87,7 +87,8 @@ public class DoacaoService {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}
 		try {
-			Item item = itemService.save(doacaoDTO);
+			Integer quantidadeAnterior = doacao.getQuantidade();
+			Item item = itemService.atualizarItemDoacao(doacaoDTO, quantidadeAnterior);
 			doacao.setItem(item);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setDataCadastro(LocalDate.now());

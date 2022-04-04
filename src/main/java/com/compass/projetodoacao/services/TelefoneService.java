@@ -7,8 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.compass.projetodoacao.dto.DoadorFormDTO;
-import com.compass.projetodoacao.dto.ONGFormDTO;
+import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.repositories.TelefoneRepository;
 import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
@@ -28,30 +27,20 @@ public class TelefoneService {
 		return telefoneRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 	}
-
-	public Telefone saveTelefoneDoador(@Valid DoadorFormDTO doadorDTO) {
+	
+	public Telefone saveTelefone(@Valid TelefoneFormDTO telefoneDTO) {
 		try {
 			Telefone telefone = new Telefone();
-			telefone.setNumero(doadorDTO.getTelefone());
-			return telefoneRepository.save(telefone);
-		} catch (MethodArgumentNotValidException e) {
-			throw new MethodArgumentNotValidException(e.getMessage());
-		}
-	}
-
-	public Telefone saveTelefoneONG(@Valid ONGFormDTO ongDTO) {
-		try {
-			Telefone telefone = new Telefone();
-			telefone.setNumero(ongDTO.getTelefone());
+			telefone.setNumero(telefoneDTO.getNumero());
 			return telefoneRepository.save(telefone);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
 	}
 	
-	public Telefone update(Integer id, @Valid Telefone telefone) {
+	public Telefone update(Integer id, @Valid TelefoneFormDTO telefoneDTO) {
 		Telefone obj = findById(id);
-		obj.setNumero(telefone.getNumero());
+		obj.setNumero(telefoneDTO.getNumero());
 		return obj;
 	}
 

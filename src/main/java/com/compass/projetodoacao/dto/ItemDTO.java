@@ -9,6 +9,8 @@ public class ItemDTO {
 	private Tipo tipo;
 	private Integer quantidadeTotal;
 	
+	public ItemDTO() {}
+	
 	public ItemDTO(Item item) {
 		this.id = item.getId();
 		this.tipo = item.getTipo();

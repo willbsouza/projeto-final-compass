@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.compass.projetodoacao.dto.DoadorDTO;
 import com.compass.projetodoacao.dto.DoadorFormDTO;
+import com.compass.projetodoacao.dto.EnderecoFormDTO;
+import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.Telefone;
@@ -30,9 +32,9 @@ public class DoadorService {
 	private EnderecoService enderecoService;
 
 	public DoadorDTO save(DoadorFormDTO doadorDTO) {
-
-		Endereco endereco = enderecoService.saveEnderecoDoador(doadorDTO);
-		Telefone telefone = telefoneService.saveTelefoneDoador(doadorDTO);
+		
+		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(doadorDTO));
+		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(doadorDTO));
 		try {
 			Doador doador = new Doador();
 			doador.adicionarEndereco(endereco);
@@ -70,8 +72,8 @@ public class DoadorService {
 	public DoadorDTO update(Integer id, @Valid DoadorFormDTO doadorDTO) {
 		Doador doador = doadorRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		Endereco endereco = enderecoService.saveEnderecoDoador(doadorDTO);
-		Telefone telefone = telefoneService.saveTelefoneDoador(doadorDTO);
+		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(doadorDTO));
+		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(doadorDTO));
 		try {
 			doador.adicionarEndereco(endereco);
 			doador.adicionarTelefone(telefone);

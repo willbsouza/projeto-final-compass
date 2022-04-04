@@ -8,7 +8,6 @@ import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class DoacaoFormDTO {
 	
-	//Doacao
 	private Integer id;
 	
 	@NotNull
@@ -16,8 +15,6 @@ public class DoacaoFormDTO {
 	
 	@NotNull
 	private Integer id_ong;
-	
-	//Item
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)

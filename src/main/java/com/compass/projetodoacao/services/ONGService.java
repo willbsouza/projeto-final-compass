@@ -8,8 +8,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.compass.projetodoacao.dto.EnderecoFormDTO;
 import com.compass.projetodoacao.dto.ONGDTO;
 import com.compass.projetodoacao.dto.ONGFormDTO;
+import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.ONG;
 import com.compass.projetodoacao.entities.Telefone;
@@ -42,8 +44,8 @@ public class ONGService {
 
 	public ONGDTO save(@Valid ONGFormDTO ongDTO) {
 
-		Endereco endereco = enderecoService.saveEnderecoONG(ongDTO);
-		Telefone telefone = telefoneService.saveTelefoneONG(ongDTO);
+		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(ongDTO));
+		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(ongDTO));
 		try {
 			ONG ong = new ONG();
 			ong.adicionarEndereco(endereco);
@@ -59,8 +61,8 @@ public class ONGService {
 	public ONGDTO update(Integer id, @Valid ONGFormDTO ongDTO) {
 		ONG ong = ongRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		Endereco endereco = enderecoService.saveEnderecoONG(ongDTO);
-		Telefone telefone = telefoneService.saveTelefoneONG(ongDTO);
+		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(ongDTO));
+		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(ongDTO));
 		try {
 			ong.adicionarEndereco(endereco);
 			ong.adicionarTelefone(telefone);

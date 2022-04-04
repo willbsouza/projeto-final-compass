@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.compass.projetodoacao.dto.EnderecoDTO;
+import com.compass.projetodoacao.dto.EnderecoFormDTO;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.services.EnderecoService;
 
@@ -41,14 +41,14 @@ public class EnderecoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Endereco> save(@RequestBody @Valid EnderecoDTO enderecoDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<Endereco> save(@RequestBody @Valid EnderecoFormDTO enderecoDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/enderecos").buildAndExpand(enderecoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(enderecoService.saveEndereco(enderecoDTO));
 	}
 
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<Endereco> update(@PathVariable Integer id, @RequestBody @Valid EnderecoDTO enderecoDTO){
+	public ResponseEntity<Endereco> update(@PathVariable Integer id, @RequestBody @Valid EnderecoFormDTO enderecoDTO){
 		return ResponseEntity.ok(enderecoService.update(id, enderecoDTO));
 	}
 	

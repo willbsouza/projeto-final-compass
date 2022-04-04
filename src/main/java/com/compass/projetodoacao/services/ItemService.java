@@ -90,4 +90,10 @@ public class ItemService {
 		findById(id);
 		itemRepository.deleteById(id);
 	}
+
+	public Item atualizarItemDoacao(DoacaoFormDTO doacaoAtualizada, Integer quantidadeAnterior) {
+		Item item = itemRepository.findByTipo(doacaoAtualizada.getTipoItem());
+		item.setQuantidadeTotal(item.getQuantidadeTotal() - quantidadeAnterior + doacaoAtualizada.getQuantidadeItem());
+		return item;
+	}
 }
