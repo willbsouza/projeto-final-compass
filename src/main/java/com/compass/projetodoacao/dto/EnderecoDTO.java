@@ -5,20 +5,15 @@ import com.compass.projetodoacao.entities.Endereco;
 public class EnderecoDTO {
 	private Integer id;
 	private String numero;
-	private String complemento;
 	private String bairro;
-	private String logradouro;
 	private String cidade;
 	private String estado;
 	private String cep;
-	
-	public EnderecoDTO() {};
 	public EnderecoDTO(Endereco obj) {
+		super();
 		this.id = obj.getId();
 		this.numero = obj.getNumero();
-		this.complemento= obj.getComplemento();
 		this.bairro = obj.getBairro();
-		this.logradouro = obj.getLogradouro();
 		this.cidade = obj.getCidade();
 		this.estado = obj.getEstado();
 		this.cep = obj.getCep();
@@ -58,17 +53,5 @@ public class EnderecoDTO {
 	}
 	public void setCep(String cep) {
 		this.cep = cep;
-	}
-	public String getComplemento() {
-		return complemento;
-	}
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-	public String getLogradouro() {
-		return logradouro;
-	}
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
 	}
 }
