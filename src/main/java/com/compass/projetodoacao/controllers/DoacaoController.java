@@ -52,6 +52,7 @@ public class DoacaoController {
 		return ResponseEntity.ok(doacaoService.update(id, doacaoDTO));
 	}
 
+	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
