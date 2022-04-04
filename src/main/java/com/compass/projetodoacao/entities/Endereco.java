@@ -40,6 +40,7 @@ public class Endereco {
 	@NotEmpty
 	private String cep;
 	
+	
 	public Integer getId() {
 		return id;
 	}
