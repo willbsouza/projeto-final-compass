@@ -59,6 +59,17 @@ public class EnderecoFormDTO {
 		this.cep = ongDTO.getCep();
 	}
 	
+	public EnderecoFormDTO(DonatarioFormDTO donatarioDTO) {
+
+		this.numero = donatarioDTO.getNumero();
+		this.complemento= donatarioDTO.getComplemento();
+		this.bairro = donatarioDTO.getBairro();
+		this.logradouro = donatarioDTO.getLogradouro();
+		this.cidade = donatarioDTO.getCidade();
+		this.estado = donatarioDTO.getEstado();
+		this.cep = donatarioDTO.getCep();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

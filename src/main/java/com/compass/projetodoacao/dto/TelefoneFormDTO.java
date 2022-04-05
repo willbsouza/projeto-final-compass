@@ -23,6 +23,10 @@ public class TelefoneFormDTO {
 		this.numero = ongDTO.getTelefone();
 	}
 	
+	public TelefoneFormDTO(DonatarioFormDTO donatarioDTO) {
+		this.numero = donatarioDTO.getTelefone();
+	}
+	
 	public Integer getId() {
 		return id;
 	}
