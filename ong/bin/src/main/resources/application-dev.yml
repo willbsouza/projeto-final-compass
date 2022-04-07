@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:db_doacao
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
