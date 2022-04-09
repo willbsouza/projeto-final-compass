@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.DoadorDTO;
 import com.compass.projetodoacao.dto.DoadorFormDTO;
+import com.compass.projetodoacao.dto.DoadorPostFormDTO;
 import com.compass.projetodoacao.services.DoadorService;
 
 @RestController
@@ -41,7 +42,7 @@ public class DoadorController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<DoadorDTO> save(@RequestBody @Valid DoadorFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<DoadorDTO> save(@RequestBody @Valid DoadorPostFormDTO doadorDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/doadores").buildAndExpand(doadorDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(doadorService.save(doadorDTO));
 	}

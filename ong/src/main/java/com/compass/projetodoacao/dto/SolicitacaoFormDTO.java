@@ -22,9 +22,6 @@ public class SolicitacaoFormDTO {
 	
 	@NotNull
 	private Integer quantidadeItem;
-	
-	@NotNull
-	private Integer id_categoria;
 
 	public Integer getId() {
 		return id;
@@ -44,9 +41,5 @@ public class SolicitacaoFormDTO {
 
 	public Integer getQuantidadeItem() {
 		return quantidadeItem;
-	}
-
-	public Integer getId_categoria() {
-		return id_categoria;
 	}
 }

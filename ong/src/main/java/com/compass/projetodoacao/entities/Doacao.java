@@ -2,12 +2,16 @@ package com.compass.projetodoacao.entities;
 
 import java.time.LocalDate;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import com.compass.projetodoacao.entities.enums.Modalidade;
 
 @Entity
 public class Doacao {
@@ -25,6 +29,10 @@ public class Doacao {
 	@ManyToOne
 	@JoinColumn(name = "item_id")
 	private Item item;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Modalidade modalidade;
 	
 	@ManyToOne
 	@JoinColumn(name = "doador_id")
@@ -46,6 +54,14 @@ public class Doacao {
 		return dataCadastro;
 	}
 
+	public Modalidade getModalidade() {
+		return modalidade;
+	}
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
+	}
+
 	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
@@ -57,7 +73,7 @@ public class Doacao {
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-
+	
 	public Doador getDoador() {
 		return doador;
 	}

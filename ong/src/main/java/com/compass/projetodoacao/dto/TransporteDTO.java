@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class TransporteDTO {
 
+	private Integer idDoacao;
+	
 	private String enderecoOrigem;
 	
 	private String enderecoDestino;
@@ -15,6 +17,14 @@ public class TransporteDTO {
 	private LocalDate dataPedido;
 	
 	private LocalDate dataPrevisaoServico;
+	
+	public Integer getIdDoacao() {
+		return idDoacao;
+	}
+	
+	public void setIdDoacao(Integer idDoacao) {
+		this.idDoacao = idDoacao;
+	}
 
 	public String getEnderecoOrigem() {
 		return enderecoOrigem;

@@ -15,15 +15,15 @@ public class TelefoneFormDTO {
 		
 	}
 	
-	public TelefoneFormDTO(DoadorFormDTO doadorDTO) {
+	public TelefoneFormDTO(DoadorPostFormDTO doadorDTO) {
 		this.numero = doadorDTO.getTelefone();
 	}
 	
-	public TelefoneFormDTO(ONGFormDTO ongDTO) {
+	public TelefoneFormDTO(ONGPostFormDTO ongDTO) {
 		this.numero = ongDTO.getTelefone();
 	}
 	
-	public TelefoneFormDTO(DonatarioFormDTO donatarioDTO) {
+	public TelefoneFormDTO(DonatarioPostFormDTO donatarioDTO) {
 		this.numero = donatarioDTO.getTelefone();
 	}
 	

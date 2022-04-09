@@ -4,6 +4,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
+import com.compass.projetodoacao.entities.enums.Modalidade;
 import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class DoacaoFormDTO {
@@ -19,6 +20,10 @@ public class DoacaoFormDTO {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Tipo tipoItem;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Modalidade modalidade;
 	
 	@NotNull
 	private Integer quantidadeItem;
@@ -40,6 +45,10 @@ public class DoacaoFormDTO {
 	
 	public Tipo getTipoItem() {
 		return tipoItem;
+	}
+	
+	public Modalidade getModalidade() {
+		return modalidade;
 	}
 
 	public Integer getQuantidadeItem() {

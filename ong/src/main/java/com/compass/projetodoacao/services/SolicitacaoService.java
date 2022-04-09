@@ -15,13 +15,10 @@ import com.compass.projetodoacao.entities.Donatario;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.entities.ONG;
 import com.compass.projetodoacao.entities.Solicitacao;
-import com.compass.projetodoacao.entities.enums.Status;
 import com.compass.projetodoacao.repositories.DonatarioRepository;
-import com.compass.projetodoacao.repositories.ItemRepository;
 import com.compass.projetodoacao.repositories.ONGRepository;
 import com.compass.projetodoacao.repositories.SolicitacaoRepository;
 import com.compass.projetodoacao.services.exception.HttpMessageNotReadableException;
-import com.compass.projetodoacao.services.exception.InvalidQuantityException;
 import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
@@ -36,9 +33,9 @@ public class SolicitacaoService {
 
 	@Autowired
 	private DonatarioRepository donatarioRepository;
-
+	
 	@Autowired
-	private ItemRepository itemRepository;
+	private ItemService itemService;
 
 	public SolicitacaoDTO save(@Valid SolicitacaoFormDTO solicitacaoDTO) {
 
@@ -46,21 +43,14 @@ public class SolicitacaoService {
 				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_ong() + " não encontrado."));
 		Donatario donatario = donatarioRepository.findById(solicitacaoDTO.getId_donatario()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_donatario() + " não encontrado."));
-		if (solicitacaoDTO.getQuantidadeItem() < 1) {
-			throw new InvalidQuantityException("Quantidade menor que 1.");
-		}
 		try {
-			Item item = itemRepository.findByTipo(solicitacaoDTO.getTipoItem());
-			if (item == null) {
-				throw new ObjectNotFoundException("Tipo de item não encontrado.");
-			}
+			Item item = itemService.atualizarItemPostSolicitacao(solicitacaoDTO);
 			Solicitacao solicitacao = new Solicitacao();
 			solicitacao.setItem(item);
 			solicitacao.setOng(ong);
 			solicitacao.setDonatario(donatario);
 			solicitacao.setQuantidade(solicitacaoDTO.getQuantidadeItem());
 			solicitacao.setDataCadastro(LocalDate.now());
-			solicitacao.setStatus(Status.ABERTA);
 			solicitacaoRepository.save(solicitacao);
 			return converter(solicitacao);
 		} catch (MethodArgumentNotValidException e) {
@@ -89,14 +79,8 @@ public class SolicitacaoService {
 				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_ong() + " não encontrado."));
 		Donatario donatario = donatarioRepository.findById(solicitacaoDTO.getId_donatario()).orElseThrow(
 				() -> new ObjectNotFoundException("Doador com ID: " + solicitacaoDTO.getId_donatario() + " não encontrado."));
-		if (solicitacaoDTO.getQuantidadeItem() < 1) {
-			throw new InvalidQuantityException("Quantidade menor que 1.");
-		}
 		try {
-			Item item = itemRepository.findByTipo(solicitacaoDTO.getTipoItem());
-			if (item == null) {
-				throw new ObjectNotFoundException("Tipo de item não encontrado.");
-			}
+			Item item = itemService.atualizarItemPutSolicitacao(solicitacao, solicitacaoDTO);
 			solicitacao.setItem(item);
 			solicitacao.setOng(ong);
 			solicitacao.setDonatario(donatario);

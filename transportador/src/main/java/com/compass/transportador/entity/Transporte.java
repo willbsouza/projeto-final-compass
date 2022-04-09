@@ -37,6 +37,7 @@ public class Transporte {
 	@NotNull
 	private LocalDate dataPrevisaoServico;
 
+
 	public Integer getId() {
 		return id;
 	}

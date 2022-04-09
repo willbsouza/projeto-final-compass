@@ -68,17 +68,8 @@ public class ONG {
 	public void adicionarTelefone(Telefone telefone) {
 		this.telefones.add(telefone);
 	}
-	
-	public void removerTelefone(Telefone telefone) {
-		this.telefones.remove(telefone);
-	}
 
 	public void adicionarEndereco(Endereco endereco) {
 		this.enderecos.add(endereco);
 	}
-	
-	public void removerEndereco(Endereco endereco) {
-		this.enderecos.remove(endereco);
-	}		
-	
 }

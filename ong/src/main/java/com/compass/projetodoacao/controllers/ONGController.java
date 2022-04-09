@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.ONGDTO;
 import com.compass.projetodoacao.dto.ONGFormDTO;
+import com.compass.projetodoacao.dto.ONGPostFormDTO;
 import com.compass.projetodoacao.services.ONGService;
 
 @RestController
@@ -41,7 +42,7 @@ public class ONGController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<ONGDTO> save(@RequestBody @Valid ONGFormDTO ongDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<ONGDTO> save(@RequestBody @Valid ONGPostFormDTO ongDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/ongs").buildAndExpand(ongDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(ongService.save(ongDTO));
 	}

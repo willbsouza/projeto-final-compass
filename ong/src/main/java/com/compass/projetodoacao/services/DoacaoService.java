@@ -17,6 +17,7 @@ import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.entities.ONG;
+import com.compass.projetodoacao.entities.enums.Modalidade;
 import com.compass.projetodoacao.repositories.DoacaoRepository;
 import com.compass.projetodoacao.repositories.DoadorRepository;
 import com.compass.projetodoacao.repositories.ONGRepository;
@@ -57,11 +58,14 @@ public class DoacaoService {
 			Doacao doacao = new Doacao();
 			doacao.setItem(item);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
+			doacao.setModalidade(doacaoDTO.getModalidade());
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setOng(ong);
 			doacao.setDoador(doador);
 			doacaoRepository.save(doacao);
-			solicitarTransporte(ong, doador, doacao);
+			if (doacao.getModalidade() == Modalidade.DELIVERY) {
+				solicitarTransporte(ong, doador, doacao);	
+			}
 			return converter(doacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
@@ -70,17 +74,17 @@ public class DoacaoService {
 		}
 	}
 	
-	private void solicitarTransporte(ONG ong, Doador doador, Doacao doacao) {
+	private TransporteDTO solicitarTransporte(ONG ong, Doador doador, Doacao doacao) {
 		TransporteDTO transporteDTO = new TransporteDTO();
-		transporteDTO.setEnderecoOrigem(ong.getEnderecos().get(0).toString()); 
-		transporteDTO.setEnderecoDestino(doador.getEnderecos().get(0).toString());
+		transporteDTO.setEnderecoOrigem(doador.getEnderecos().get(0).toString()); 
+		transporteDTO.setEnderecoDestino(ong.getEnderecos().get(0).toString());
 		transporteDTO.setItem(doacao.getItem().getTipo().toString());
 		transporteDTO.setQuantidade(doacao.getQuantidade());
 		transporteDTO.setDataPedido(LocalDate.now());
 		transporteDTO.setDataPrevisaoServico(LocalDate.now().plusDays(2));
-		transporteClient.solicitarTransporte(transporteDTO);
+		return transporteClient.solicitarTransporte(transporteDTO);
 	}
-
+	
 	public List<DoacaoDTO> findAll() {
 		List<Doacao> doacaoList = doacaoRepository.findAll();
 		return doacaoList.stream().map(d -> converter(d)).collect(Collectors.toList());
@@ -103,9 +107,11 @@ public class DoacaoService {
 		if (doacaoDTO.getQuantidadeItem() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}
+		if (doacao.getModalidade() == Modalidade.DELIVERY) {
+			solicitarTransporte(ong, doador, doacao);	
+		}
 		try {
-			Integer quantidadeAnterior = doacao.getQuantidade();
-			Item item = itemService.atualizarItemDoacao(doacaoDTO, quantidadeAnterior);
+			Item item = itemService.atualizarItemDoacao(doacao, doacaoDTO);
 			doacao.setItem(item);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setDataCadastro(LocalDate.now());

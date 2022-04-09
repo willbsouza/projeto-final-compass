@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.DonatarioDTO;
 import com.compass.projetodoacao.dto.DonatarioFormDTO;
+import com.compass.projetodoacao.dto.DonatarioPostFormDTO;
 import com.compass.projetodoacao.services.DonatarioService;
 
 @RestController
@@ -41,7 +42,7 @@ public class DonatarioController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<DonatarioDTO> save(@RequestBody @Valid DonatarioFormDTO donatarioDTO, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<DonatarioDTO> save(@RequestBody @Valid DonatarioPostFormDTO donatarioDTO, UriComponentsBuilder uriBuilder){
 		URI uri = uriBuilder.path("/donatarios").buildAndExpand(donatarioDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(donatarioService.save(donatarioDTO));
 	}

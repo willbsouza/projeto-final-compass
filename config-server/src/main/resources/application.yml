@@ -2,10 +2,9 @@ server:
   port: 8888
   
 spring:
-  profiles:
-    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: C:\temp\ws-sts\projeto-doacao-repo
+        git:
+          uri: https://github.com/willbsouza/microservice-repo
+          search-paths: transportador

@@ -3,16 +3,12 @@ package com.compass.projetodoacao.entities;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
-import com.compass.projetodoacao.entities.enums.Status;
 
 @Entity
 public class Solicitacao {
@@ -26,11 +22,7 @@ public class Solicitacao {
 	
 	@NotNull
 	private Integer quantidade;
-	
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Status status;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "item_id")
 	private Item item;
@@ -65,14 +57,6 @@ public class Solicitacao {
 
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
-	}
-	
-	public Status getStatus() {
-		return status;
-	}
-	
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 	
 	public Item getItem() {

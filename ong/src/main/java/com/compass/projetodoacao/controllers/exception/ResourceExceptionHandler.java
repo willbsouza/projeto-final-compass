@@ -23,7 +23,7 @@ public class ResourceExceptionHandler {
 		StandardError erro = new StandardError();
 		erro.setTimestamp(Instant.now());
 		erro.setStatus(HttpStatus.NOT_FOUND.value());
-		erro.setError("ID informado inexistente.");
+		erro.setError("Não encontrado.");
 		erro.setMessage(e.getMessage());
 		erro.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
@@ -56,7 +56,7 @@ public class ResourceExceptionHandler {
 		StandardError erro = new StandardError();
 		erro.setTimestamp(Instant.now());
 		erro.setStatus(HttpStatus.BAD_REQUEST.value());
-		erro.setError("Entrada inválida. Valor deve ser no mínimo 1.");
+		erro.setError("Entrada inválida. Quantidade inválida.");
 		erro.setMessage(e.getMessage());
 		erro.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);

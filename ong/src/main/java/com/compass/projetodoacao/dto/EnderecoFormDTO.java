@@ -37,7 +37,7 @@ public class EnderecoFormDTO {
 		this.cep = obj.getCep();
 	}
 	
-	public EnderecoFormDTO(DoadorFormDTO doadorDTO) {
+	public EnderecoFormDTO(DoadorPostFormDTO doadorDTO) {
 
 		this.numero = doadorDTO.getNumero();
 		this.complemento= doadorDTO.getComplemento();
@@ -48,7 +48,7 @@ public class EnderecoFormDTO {
 		this.cep = doadorDTO.getCep();
 	}
 	
-	public EnderecoFormDTO(ONGFormDTO ongDTO) {
+	public EnderecoFormDTO(ONGPostFormDTO ongDTO) {
 
 		this.numero = ongDTO.getNumero();
 		this.complemento= ongDTO.getComplemento();
@@ -59,7 +59,7 @@ public class EnderecoFormDTO {
 		this.cep = ongDTO.getCep();
 	}
 	
-	public EnderecoFormDTO(DonatarioFormDTO donatarioDTO) {
+	public EnderecoFormDTO(DonatarioPostFormDTO donatarioDTO) {
 
 		this.numero = donatarioDTO.getNumero();
 		this.complemento= donatarioDTO.getComplemento();
