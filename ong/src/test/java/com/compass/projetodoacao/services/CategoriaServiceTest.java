@@ -36,8 +36,8 @@ public class CategoriaServiceTest {
 
 	private Optional<Categoria> optionalCategoria;
 
-	private final static Integer ID = 1;
-	private final static String NOME = "Vestuário";
+	private static final Integer ID = 1;
+	private static final String NOME = "Vestuário";
 
 	@BeforeEach
 	void setUp() {

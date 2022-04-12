@@ -21,4 +21,15 @@ public class DoadorFormDTO {
 	public String getCpfDoador() {
 		return cpfDoador;
 	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setNomeDoador(String nomeDoador) {
+		this.nomeDoador = nomeDoador;
+	}
+	public void setCpfDoador(String cpfDoador) {
+		this.cpfDoador = cpfDoador;
+	}
+	
+	
 }

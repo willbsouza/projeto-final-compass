@@ -8,7 +8,9 @@ public class DoadorDTO {
 	private String cpf;
 	private String nome;
 	
-	public DoadorDTO() {};
+	public DoadorDTO() {
+		
+	}
 	
 	public DoadorDTO(Doador obj) {
 		this.id = obj.getId();

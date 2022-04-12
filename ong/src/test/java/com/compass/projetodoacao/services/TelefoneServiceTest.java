@@ -39,8 +39,8 @@ public class TelefoneServiceTest {
 
 	private Optional<Telefone> optionalTelefone;
 
-	private final static Integer ID = 1;
-	private final static String NUMERO = "81987654321";
+	private static final Integer ID = 1;
+	private static final String NUMERO = "81987654321";
 	
 	@BeforeEach
 	void setUp() {

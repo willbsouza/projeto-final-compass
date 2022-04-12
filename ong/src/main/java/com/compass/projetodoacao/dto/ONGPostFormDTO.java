@@ -58,4 +58,34 @@ public class ONGPostFormDTO {
 	public String getCep() {
 		return cep;
 	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setFilialONG(String filialONG) {
+		this.filialONG = filialONG;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 }

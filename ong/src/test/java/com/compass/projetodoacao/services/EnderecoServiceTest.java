@@ -39,14 +39,14 @@ public class EnderecoServiceTest {
 
 	private Optional<Endereco> optionalEndereco;
 
-	private final static Integer ID = 1;
-	private final static String LOGRADOURO = "Avenida Um";
-	private final static String NUMERO = "123";
-	private final static String COMPLEMENTO = "Sem Complemento";
-	private final static String BAIRRO = "Janga";
-	private final static String CIDADE = "Paulista";
-	private final static String ESTADO = "PE";
-	private final static String CEP = "53410530";
+	private static final Integer ID = 1;
+	private static final String LOGRADOURO = "Avenida Um";
+	private static final String NUMERO = "123";
+	private static final String COMPLEMENTO = "Sem Complemento";
+	private static final String BAIRRO = "Janga";
+	private static final String CIDADE = "Paulista";
+	private static final String ESTADO = "PE";
+	private static final String CEP = "53410530";
 	
 	@BeforeEach
 	void setUp() {

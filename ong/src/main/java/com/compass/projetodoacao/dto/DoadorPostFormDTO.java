@@ -61,4 +61,37 @@ public class DoadorPostFormDTO {
 	public String getCep() {
 		return cep;
 	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setNomeDoador(String nomeDoador) {
+		this.nomeDoador = nomeDoador;
+	}
+	public void setCpfDoador(String cpfDoador) {
+		this.cpfDoador = cpfDoador;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 }
