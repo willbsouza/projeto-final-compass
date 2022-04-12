@@ -1,0 +1,1 @@
+INSERT INTO categoria(nome) VALUES ('Vestuário');
