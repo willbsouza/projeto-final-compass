@@ -1,13 +1,21 @@
 package com.compass.projetodoacao.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class ItemFormDTO {
 	
 	private Integer id;
+	
+	@NotNull
 	private Integer idCategoria;
+	
+	@NotNull
 	private Tipo tipo;
+	
+	@NotNull
 	private Integer quantidadeTotal;
 	
 	public ItemFormDTO() {}

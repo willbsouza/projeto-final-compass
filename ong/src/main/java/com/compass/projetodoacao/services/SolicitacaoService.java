@@ -42,7 +42,7 @@ public class SolicitacaoService {
 		ONG ong = ongRepository.findById(solicitacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_ong() + " não encontrado."));
 		Donatario donatario = donatarioRepository.findById(solicitacaoDTO.getId_donatario()).orElseThrow(
-				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_donatario() + " não encontrado."));
+				() -> new ObjectNotFoundException("Donatario com ID: " + solicitacaoDTO.getId_donatario() + " não encontrado."));
 		try {
 			Item item = itemService.atualizarItemPostSolicitacao(solicitacaoDTO);
 			Solicitacao solicitacao = new Solicitacao();
@@ -51,8 +51,8 @@ public class SolicitacaoService {
 			solicitacao.setDonatario(donatario);
 			solicitacao.setQuantidade(solicitacaoDTO.getQuantidadeItem());
 			solicitacao.setDataCadastro(LocalDate.now());
-			solicitacaoRepository.save(solicitacao);
-			return converter(solicitacao);
+			solicitacaoRepository.save(solicitacao);	
+			return new SolicitacaoDTO(solicitacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		} catch (HttpMessageNotReadableException e) {
@@ -62,13 +62,13 @@ public class SolicitacaoService {
 
 	public List<SolicitacaoDTO> findAll() {
 		List<Solicitacao> solicitacaoList = solicitacaoRepository.findAll();
-		return solicitacaoList.stream().map(s -> converter(s)).collect(Collectors.toList());
+		return solicitacaoList.stream().map(s -> new SolicitacaoDTO(s)).collect(Collectors.toList());
 	}
 
 	public SolicitacaoDTO findById(Integer id) {
 		Solicitacao solicitacao = solicitacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(solicitacao);
+		return new SolicitacaoDTO(solicitacao);
 	}
 
 	public SolicitacaoDTO update(Integer id, @Valid SolicitacaoFormDTO solicitacaoDTO) {
@@ -85,7 +85,7 @@ public class SolicitacaoService {
 			solicitacao.setOng(ong);
 			solicitacao.setDonatario(donatario);
 			solicitacao.setQuantidade(solicitacaoDTO.getQuantidadeItem());
-			return converter(solicitacao);
+			return new SolicitacaoDTO(solicitacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		} catch (HttpMessageNotReadableException e) {
@@ -94,11 +94,9 @@ public class SolicitacaoService {
 	}
 
 	public void deleteById(Integer id) {
-		findById(id);
+		Solicitacao solicitacao = solicitacaoRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		itemService.atualizaItemDeleteSolicitacao(solicitacao);
 		solicitacaoRepository.deleteById(id);
-	}
-
-	private SolicitacaoDTO converter(Solicitacao solicitacao) {
-		return new SolicitacaoDTO(solicitacao);
 	}
 }

@@ -22,14 +22,14 @@ public class Solicitacao {
 	
 	@NotNull
 	private Integer quantidade;
-
-	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private Item item;
 	
 	@ManyToOne
 	@JoinColumn(name = "donatario_id")
 	private Donatario donatario;
+
+	@ManyToOne
+	@JoinColumn(name = "item_id")
+	private Item item;
 	
 	@ManyToOne
 	@JoinColumn(name = "ong_id")
@@ -59,20 +59,20 @@ public class Solicitacao {
 		this.quantidade = quantidade;
 	}
 	
+	public Donatario getDonatario() {
+		return donatario;
+	}
+
+	public void setDonatario(Donatario donatario) {
+		this.donatario = donatario;
+	}
+
 	public Item getItem() {
 		return item;
 	}
 
 	public void setItem(Item item) {
 		this.item = item;
-	}
-	
-	public Donatario getDonatario() {
-		return donatario;
-	}
-	
-	public void setDonatario(Donatario donatario) {
-		this.donatario = donatario;
 	}
 
 	public ONG getOng() {

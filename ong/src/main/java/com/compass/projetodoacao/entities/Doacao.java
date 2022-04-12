@@ -26,13 +26,13 @@ public class Doacao {
 	@NotNull
 	private Integer quantidade;
 	
-	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private Item item;
-	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id")
+	private Item item;
 	
 	@ManyToOne
 	@JoinColumn(name = "doador_id")

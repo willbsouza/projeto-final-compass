@@ -22,6 +22,8 @@ import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
 import com.compass.projetodoacao.services.DoacaoService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/doacoes")
 public class DoacaoController {
@@ -29,16 +31,19 @@ public class DoacaoController {
 	@Autowired
 	private DoacaoService doacaoService;
 
+	@ApiOperation(value = "Retorna lista de doações cadastradas.")
 	@GetMapping
 	public ResponseEntity<List<DoacaoDTO>> findAll() {
 		return ResponseEntity.ok(doacaoService.findAll());
 	}
 	
+	@ApiOperation(value = "Retorna uma doação ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(doacaoService.findById(id));
 	}
 
+	@ApiOperation(value = "Cadastra uma doação")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<DoacaoDTO> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder) {
@@ -46,12 +51,14 @@ public class DoacaoController {
 		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
 	}
 	
+	@ApiOperation(value = "Atualiza as informações de uma doação informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<DoacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid DoacaoFormDTO doacaoDTO){
 		return ResponseEntity.ok(doacaoService.update(id, doacaoDTO));
 	}
 	
+	@ApiOperation(value = "Exclui uma doação ao informar um ID existente.")
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {

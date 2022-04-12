@@ -18,6 +18,7 @@ import com.compass.projetodoacao.entities.ONG;
 import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.repositories.ONGRepository;
 import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
+import com.compass.projetodoacao.services.exception.DataIntegrityViolationException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @Service
@@ -34,13 +35,13 @@ public class ONGService {
 
 	public List<ONGDTO> findAll() {
 		List<ONG> listONG = ongRepository.findAll();
-		return listONG.stream().map(o -> converter(o)).collect(Collectors.toList());
+		return listONG.stream().map(ong -> new ONGDTO(ong)).collect(Collectors.toList());
 	}
 
 	public ONGDTO findById(Integer id) {
 		ONG ong = ongRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(ong);
+		return new ONGDTO(ong);
 	}
 
 	public ONGDTO save(@Valid ONGPostFormDTO ongDTO) {
@@ -53,7 +54,7 @@ public class ONGService {
 			ong.adicionarTelefone(telefone);
 			ong.setFilial(ongDTO.getFilialONG());
 			ongRepository.save(ong);
-			return converter(ong);
+			return new ONGDTO(ong);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
@@ -64,7 +65,7 @@ public class ONGService {
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		try {
 			ong.setFilial(ongDTO.getFilialONG());
-			return converter(ong);
+			return new ONGDTO(ong);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
@@ -72,10 +73,10 @@ public class ONGService {
 
 	public void deleteById(Integer id) {
 		findById(id);
-		ongRepository.deleteById(id);		
-	}
-
-	private ONGDTO converter(ONG ong) {
-		return new ONGDTO(ong);
+		try {
+			ongRepository.deleteById(id);	
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException(e.getMessage());
+		}
 	}
 }

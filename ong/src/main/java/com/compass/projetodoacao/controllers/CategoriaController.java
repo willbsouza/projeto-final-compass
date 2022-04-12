@@ -21,6 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.services.CategoriaService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
@@ -28,16 +30,19 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService categoriaService;
 	
+	@ApiOperation(value = "Retorna lista de categorias cadastradas.")
 	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll(){
 		return ResponseEntity.ok(categoriaService.findAll());
 	}
 	
+	@ApiOperation(value = "Retorna uma categoria ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(categoriaService.findById(id));
 	}
 	
+	@ApiOperation(value = "Cadastra uma categoria")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Categoria> save(@RequestBody @Valid Categoria categoria, UriComponentsBuilder uriBuilder){
@@ -45,15 +50,17 @@ public class CategoriaController {
 		return ResponseEntity.created(uri).body(categoriaService.save(categoria));
 	}
 	
+	@ApiOperation(value = "Atualiza as informações de uma categoria informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Categoria> save(@PathVariable Integer id, @RequestBody @Valid Categoria categoria){
 		return ResponseEntity.ok(categoriaService.update(id, categoria));
 	}
 	
+	@ApiOperation(value = "Exclui uma categoria ao informar um ID existente.")
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> deleteById(@PathVariable Integer id){
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		categoriaService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}

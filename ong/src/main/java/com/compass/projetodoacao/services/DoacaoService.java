@@ -57,16 +57,16 @@ public class DoacaoService {
 			Item item = itemService.save(doacaoDTO);
 			Doacao doacao = new Doacao();
 			doacao.setItem(item);
+			doacao.setDoador(doador);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setModalidade(doacaoDTO.getModalidade());
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setOng(ong);
-			doacao.setDoador(doador);
 			doacaoRepository.save(doacao);
 			if (doacao.getModalidade() == Modalidade.DELIVERY) {
 				solicitarTransporte(ong, doador, doacao);	
 			}
-			return converter(doacao);
+			return new DoacaoDTO(doacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		} catch (HttpMessageNotReadableException e) {
@@ -87,13 +87,13 @@ public class DoacaoService {
 	
 	public List<DoacaoDTO> findAll() {
 		List<Doacao> doacaoList = doacaoRepository.findAll();
-		return doacaoList.stream().map(d -> converter(d)).collect(Collectors.toList());
+		return doacaoList.stream().map(d -> new DoacaoDTO(d)).collect(Collectors.toList());
 	}
 
 	public DoacaoDTO findById(Integer id) {
 		Doacao doacao = doacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(doacao);
+		return new DoacaoDTO(doacao);
 	}
 
 	public DoacaoDTO update(Integer id, @Valid DoacaoFormDTO doacaoDTO) {
@@ -113,11 +113,11 @@ public class DoacaoService {
 		try {
 			Item item = itemService.atualizarItemDoacao(doacao, doacaoDTO);
 			doacao.setItem(item);
+			doacao.setDoador(doador);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setOng(ong);
-			doacao.setDoador(doador);
-			return converter(doacao);
+			return new DoacaoDTO(doacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		} catch (HttpMessageNotReadableException e) {
@@ -126,11 +126,9 @@ public class DoacaoService {
 	}
 
 	public void deleteById(Integer id) {
-		findById(id);
-		doadorRepository.deleteById(id);
-	}
-
-	private DoacaoDTO converter(Doacao doacao) {
-		return new DoacaoDTO(doacao);
+		Doacao doacao = doacaoRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		itemService.atualizaItemDeleteDoacao(doacao);
+		doacaoRepository.deleteById(id);
 	}
 }
