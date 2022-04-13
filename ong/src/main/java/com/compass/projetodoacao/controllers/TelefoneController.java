@@ -22,6 +22,8 @@ import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.services.TelefoneService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/telefones")
 public class TelefoneController {
@@ -29,16 +31,19 @@ public class TelefoneController {
 	@Autowired
 	private TelefoneService telefoneService;
 	
+	@ApiOperation(value = "Retorna lista de telefones cadastrados.")
 	@GetMapping
 	public ResponseEntity<List<Telefone>> findAll(){
 		return ResponseEntity.ok(telefoneService.findAll());
 	}
 	
+	@ApiOperation(value = "Retorna um telefone ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<Telefone> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(telefoneService.findById(id));
 	}
 	
+	@ApiOperation(value = "Cadastra um telefone")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Telefone> save(@RequestBody @Valid TelefoneFormDTO telefoneDTO, UriComponentsBuilder uriBuilder){
@@ -46,15 +51,17 @@ public class TelefoneController {
 		return ResponseEntity.created(uri).body(telefoneService.saveTelefone(telefoneDTO));
 	}
 	
+	@ApiOperation(value = "Atualiza as informações de um telefone informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Telefone> update(@PathVariable Integer id, @RequestBody @Valid TelefoneFormDTO telefoneDTO){
 		return ResponseEntity.ok(telefoneService.update(id, telefoneDTO));
 	}
 	
+	@ApiOperation(value = "Exclui um telefone ao informar um ID existente.")
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> deleteById(@PathVariable Integer id){
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		telefoneService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}

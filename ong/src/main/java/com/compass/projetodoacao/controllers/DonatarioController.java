@@ -23,6 +23,8 @@ import com.compass.projetodoacao.dto.DonatarioFormDTO;
 import com.compass.projetodoacao.dto.DonatarioPostFormDTO;
 import com.compass.projetodoacao.services.DonatarioService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/donatarios")
 public class DonatarioController {
@@ -30,16 +32,19 @@ public class DonatarioController {
 	@Autowired
 	private DonatarioService donatarioService;
 	
+	@ApiOperation(value = "Retorna lista de donatários cadastrados.")
 	@GetMapping
 	public ResponseEntity<List<DonatarioDTO>> findAll(){
 		return ResponseEntity.ok(donatarioService.findAll());
 	}
 	
+	@ApiOperation(value = "Retorna um donatário ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<DonatarioDTO> findById(@PathVariable Integer id){
 		return ResponseEntity.ok(donatarioService.findById(id));
 	}
 	
+	@ApiOperation(value = "Cadastra um donatário com endereço e telefone.")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<DonatarioDTO> save(@RequestBody @Valid DonatarioPostFormDTO donatarioDTO, UriComponentsBuilder uriBuilder){
@@ -47,13 +52,15 @@ public class DonatarioController {
 		return ResponseEntity.created(uri).body(donatarioService.save(donatarioDTO));
 	}
 	
+	@ApiOperation(value = "Atualiza as informações de um donatário informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<DonatarioDTO> update(@PathVariable Integer id, @RequestBody @Valid DonatarioFormDTO donatarioDTO){
 		return ResponseEntity.ok(donatarioService.update(id, donatarioDTO));
 	}
 	
-	@DeleteMapping
+	@ApiOperation(value = "Exclui um donatário ao informar um ID existente.")
+	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		donatarioService.deleteById(id);

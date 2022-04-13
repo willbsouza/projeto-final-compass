@@ -3,6 +3,7 @@ package com.compass.projetodoacao.dto;
 import java.time.LocalDate;
 
 import com.compass.projetodoacao.entities.Doacao;
+import com.compass.projetodoacao.entities.enums.Modalidade;
 import com.compass.projetodoacao.entities.enums.Tipo;
 
 
@@ -13,6 +14,7 @@ public class DoacaoDTO {
 	private String nomeDoador;
 	private String filialOng;
 	private Tipo item;
+	private Modalidade modalidade;
 	private Integer quantidadeItem;
 	
 	public DoacaoDTO() {}
@@ -24,6 +26,7 @@ public class DoacaoDTO {
 		this.filialOng = doacao.getOng().getFilial();
 		this.item = doacao.getItem().getTipo();
 		this.quantidadeItem = doacao.getQuantidade();
+		this.modalidade = doacao.getModalidade();
 	}
 
 	public Integer getId() {
@@ -44,6 +47,10 @@ public class DoacaoDTO {
 
 	public Tipo getItem() {
 		return item;
+	}
+	
+	public Modalidade getModalidade() {
+		return modalidade;
 	}
 
 	public Integer getQuantidadeItem() {

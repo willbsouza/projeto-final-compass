@@ -43,7 +43,7 @@ public class DonatarioService {
 			donatario.setCpf(donatarioDTO.getCpfDonatario());
 			donatario.setNome(donatarioDTO.getNomeDonatario());
 			donatarioRepository.save(donatario);
-			return converter(donatario);
+			return new DonatarioDTO(donatario);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
@@ -51,34 +51,30 @@ public class DonatarioService {
 
 	public List<DonatarioDTO> findAll() {		
 		List<Donatario> donatarioList = donatarioRepository.findAll();
-		return donatarioList.stream().map(d -> converter(d)).collect(Collectors.toList());
+		return donatarioList.stream().map(d -> new DonatarioDTO(d)).collect(Collectors.toList());
 	}
 
 	public DonatarioDTO findById(Integer id) {
 
 		Donatario donatario = donatarioRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(donatario);
+		return new DonatarioDTO(donatario);
 	}
 	
-	public void deleteById(Integer id) {
-		findById(id);
-		donatarioRepository.deleteById(id);		
-	}
-
 	public DonatarioDTO update(Integer id, @Valid DonatarioFormDTO donatarioDTO) {
 		Donatario donatario = donatarioRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		try {
 			donatario.setCpf(donatarioDTO.getCpfDonatario());
 			donatario.setNome(donatarioDTO.getNomeDonatario());
-			return converter(donatario);
+			return new DonatarioDTO(donatario);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
 	}
 	
-	private DonatarioDTO converter(Donatario donatario) {
-		return new DonatarioDTO(donatario);
+	public void deleteById(Integer id) {
+		findById(id);
+		donatarioRepository.deleteById(id);	
 	}
 }

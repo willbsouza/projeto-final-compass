@@ -3,6 +3,7 @@ package com.compass.projetodoacao.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Donatario {
@@ -29,15 +28,15 @@ public class Donatario {
 	@NotNull
 	private String cpf;
 	
-	@OneToMany(mappedBy = "donatario")
-	@JsonIgnore()
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "donatario_id")
 	private List<Solicitacao> solicitacoes;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idDonatario")
 	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idDonatario")
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	

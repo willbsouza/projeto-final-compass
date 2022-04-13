@@ -31,6 +31,19 @@ public class DoadorService {
 
 	@Autowired
 	private EnderecoService enderecoService;
+	
+
+	public List<DoadorDTO> findAll() {		
+		List<Doador> doadorList = doadorRepository.findAll();
+		return doadorList.stream().map(d -> new DoadorDTO(d)).collect(Collectors.toList());
+	}
+
+	public DoadorDTO findById(Integer id) {
+
+		Doador doador = doadorRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		return new DoadorDTO(doador);
+	}
 
 	public DoadorDTO save(DoadorPostFormDTO doadorDTO) {
 		
@@ -43,31 +56,10 @@ public class DoadorService {
 			doador.setCpf(doadorDTO.getCpfDoador());
 			doador.setNome(doadorDTO.getNomeDoador());
 			doadorRepository.save(doador);
-			return converter(doador);
+			return new DoadorDTO(doador);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
-	}
-
-	public List<DoadorDTO> findAll() {		
-		List<Doador> doadorList = doadorRepository.findAll();
-		return doadorList.stream().map(d -> converter(d)).collect(Collectors.toList());
-	}
-
-	public DoadorDTO findById(Integer id) {
-
-		Doador doador = doadorRepository.findById(id)
-				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(doador);
-	}
-	
-	public void deleteById(Integer id) {
-		findById(id);
-		doadorRepository.deleteById(id);		
-	}
-	
-	private DoadorDTO converter(Doador doador) {
-		return new DoadorDTO(doador);
 	}
 
 	public DoadorDTO update(Integer id, @Valid DoadorFormDTO doadorDTO) {
@@ -76,9 +68,14 @@ public class DoadorService {
 		try {
 			doador.setCpf(doadorDTO.getCpfDoador());
 			doador.setNome(doadorDTO.getNomeDoador());
-			return converter(doador);
+			return new DoadorDTO(doador);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
+	}
+	
+	public void deleteById(Integer id) {
+		findById(id);
+		doadorRepository.deleteById(id);		
 	}
 }

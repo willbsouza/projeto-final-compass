@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.repositories.CategoriaRepository;
+import com.compass.projetodoacao.services.exception.DataIntegrityViolationException;
 import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
@@ -29,7 +30,7 @@ public class CategoriaService {
 
 	public Categoria save(@Valid Categoria categoria) {
 		try {
-		return categoriaRepository.save(categoria);
+			return categoriaRepository.save(categoria);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
@@ -47,6 +48,10 @@ public class CategoriaService {
 
 	public void deleteById(Integer id) {
 		findById(id);
-		categoriaRepository.deleteById(id);
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException(e.getMessage());
+		}
 	}
 }

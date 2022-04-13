@@ -34,13 +34,13 @@ public class ItemService {
 	
 	public List<ItemDTO> findAll() {
 		List<Item> listItem = itemRepository.findAll();
-		return listItem.stream().map(i -> converter(i)).collect(Collectors.toList());
+		return listItem.stream().map(item -> new ItemDTO(item)).collect(Collectors.toList());
 	}
 
 	public ItemDTO findById(Integer id) {
 		Item item = itemRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
-		return converter(item);
+		return new ItemDTO(item);
 	}
 
 	public Item save(@Valid DoacaoFormDTO doacaoDTO) {
@@ -71,7 +71,7 @@ public class ItemService {
 	}
 
 	public ItemDTO update(Integer id, @Valid ItemFormDTO itemFormDTO) {
-		Item obj = itemRepository.findById(id)
+		Item item = itemRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		Categoria categoria = categoriaRepository.findById(itemFormDTO.getIdCategoria())
 				.orElseThrow(() -> new ObjectNotFoundException(
@@ -79,17 +79,12 @@ public class ItemService {
 		if (itemFormDTO.getQuantidadeTotal() < 0) {
 			throw new InvalidQuantityException("Quantidade menor que 0.");
 		}
-		if (obj != null) {
-			obj.setQuantidadeTotal(itemFormDTO.getQuantidadeTotal());
-			obj.setTipo(itemFormDTO.getTipo());
-			obj.setCategoria(categoria);
+		if (item != null) {
+			item.setQuantidadeTotal(itemFormDTO.getQuantidadeTotal());
+			item.setTipo(itemFormDTO.getTipo());
+			item.setCategoria(categoria);
 		}
-		return converter(obj);
-	}
-	
-	public void deleteById(Integer id) {
-		findById(id);
-		itemRepository.deleteById(id);
+		return new ItemDTO(item);
 	}
 
 	public Item atualizarItemDoacao(Doacao doacaoAnterior, DoacaoFormDTO doacaoAtualizada) {
@@ -142,8 +137,19 @@ public class ItemService {
 		itemNovo.setQuantidadeTotal(itemNovo.getQuantidadeTotal() - solicitacaoAtualizada.getQuantidadeItem());
 		return itemNovo;
 	}
+
+	public void atualizaItemDeleteDoacao(Doacao doacao) {
+		Item item = itemRepository.findByTipo(doacao.getItem().getTipo());
+		if (doacao.getQuantidade() <= item.getQuantidadeTotal()) {
+			item.setQuantidadeTotal(item.getQuantidadeTotal() - doacao.getQuantidade());
+		} else {
+			throw new InvalidQuantityException("Não é possível excluir doação. "
+					+ "Estoque com quantidade inferior a quantidade doada. Realize uma atualização no item!");
+		}
+	}
 	
-	private ItemDTO converter(Item item) {
-		return new ItemDTO(item);
+	public void atualizaItemDeleteSolicitacao(Solicitacao solicitacao) {
+		Item item = itemRepository.findByTipo(solicitacao.getItem().getTipo());
+		item.setQuantidadeTotal(item.getQuantidadeTotal() + solicitacao.getQuantidade());
 	}
 }

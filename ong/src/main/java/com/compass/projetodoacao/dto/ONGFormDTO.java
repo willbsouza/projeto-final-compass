@@ -16,4 +16,10 @@ public class ONGFormDTO {
 	public String getFilialONG() {
 		return filialONG;
 	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setFilialONG(String filialONG) {
+		this.filialONG = filialONG;
+	}
 }
