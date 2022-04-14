@@ -36,6 +36,7 @@ import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @SpringBootTest
 public class DoacaoServiceTest {
+	
 	@InjectMocks
 	private DoacaoService doacaoService;
 
@@ -54,9 +55,6 @@ public class DoacaoServiceTest {
 	@Mock
 	private TransporteClient transporteClient;
 	
-	private DoacaoDTO doacaoDTO;
-	
-	
 	private Categoria categoria;
 
 	private Item item;
@@ -68,7 +66,6 @@ public class DoacaoServiceTest {
 	private ONG ong;
 
 	private Optional<Doacao> doacaoOpt;
-
 
 	private Doador doador;
 	private Optional<ONG> ongOpt;
@@ -156,8 +153,7 @@ public class DoacaoServiceTest {
 		when(ongRepository.findById(anyInt())).thenReturn(ongOpt);
 		when(doadorRepository.findById(anyInt())).thenReturn(doadorOpt);
 		when(itemService.save(any())).thenReturn(item);
-
-		
+	
 		DoacaoDTO response = doacaoService.save(doacaoFormDTO);
 
 		assertNotNull(response);
@@ -219,14 +215,11 @@ public class DoacaoServiceTest {
 		doacao.setQuantidade(QUANTIDADETOTAL);
 		doacaoOpt = Optional.of(doacao);
 		
-
 		doacaoFormDTO = new DoacaoFormDTO();
 		doacaoFormDTO.setId(ID);
 		doacaoFormDTO.setId_doador(ID);
 		doacaoFormDTO.setId_ong(ID);
 		doacaoFormDTO.setTipoItem(Tipo.BERMUDA);
 		doacaoFormDTO.setQuantidadeItem(QUANTIDADETOTAL);
-
-	}
-	
+	}	
 }

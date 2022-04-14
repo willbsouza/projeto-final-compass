@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.compass.projetodoacao.services.exception.InvalidAddressException;
 import com.compass.projetodoacao.services.exception.InvalidQuantityException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
@@ -70,6 +71,17 @@ public class ResourceExceptionHandler {
 		erro.setStatus(HttpStatus.BAD_REQUEST.value());
 		erro.setError("Não é possível excluir.");
 		erro.setMessage("Item possui relacionamentos. Não é possível excluir.");
+		erro.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	
+	@ExceptionHandler(InvalidAddressException.class)
+	public ResponseEntity<StandardError> camposInvalidos(InvalidAddressException e, HttpServletRequest request){
+		StandardError erro = new StandardError();
+		erro.setTimestamp(Instant.now());
+		erro.setStatus(HttpStatus.BAD_REQUEST.value());
+		erro.setError("Endereço não encontrado.");
+		erro.setMessage(e.getMessage());
 		erro.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}

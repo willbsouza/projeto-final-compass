@@ -36,7 +36,9 @@ public class Transporte {
 	
 	@NotNull
 	private LocalDate dataPrevisaoServico;
-
+	
+	@NotNull
+	private Integer idDoacao;
 
 	public Integer getId() {
 		return id;
@@ -92,5 +94,13 @@ public class Transporte {
 
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public Integer getIdDoacao() {
+		return idDoacao;
+	}
+
+	public void setIdDoacao(Integer idDoacao) {
+		this.idDoacao = idDoacao;
 	}
 }

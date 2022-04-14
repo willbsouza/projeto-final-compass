@@ -1,5 +1,7 @@
 package com.compass.projetodoacao.client;
 
+import javax.validation.Valid;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,5 +14,5 @@ import com.compass.projetodoacao.dto.TransporteDTO;
 public interface TransporteClient {
 	
 	@PostMapping("/transportes")
-	TransporteDTO solicitarTransporte(@RequestBody TransporteDTO transporte);
+	TransporteDTO solicitarTransporte(@RequestBody @Valid TransporteDTO transporte);
 }

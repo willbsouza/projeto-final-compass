@@ -2,20 +2,33 @@ package com.compass.projetodoacao.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class TransporteDTO {
 
+	@NotNull
 	private Integer idDoacao;
 	
+	@NotNull
+	@NotEmpty
 	private String enderecoOrigem;
 	
+	@NotNull
+	@NotEmpty
 	private String enderecoDestino;
 	
+	@NotNull
+	@NotEmpty
 	private String item;
 	
+	@NotNull
 	private Integer quantidade;
 	
+	@NotNull
 	private LocalDate dataPedido;
 	
+	@NotNull
 	private LocalDate dataPrevisaoServico;
 	
 	public Integer getIdDoacao() {
