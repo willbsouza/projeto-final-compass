@@ -1,11 +1,11 @@
 package com.compass.projetodoacao.controllers;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
@@ -34,28 +33,27 @@ public class DoacaoController {
 	@ApiOperation(value = "Retorna lista de doações cadastradas.")
 	@GetMapping
 	public ResponseEntity<List<DoacaoDTO>> findAll() {
-		return ResponseEntity.ok(doacaoService.findAll());
+		return new ResponseEntity<List<DoacaoDTO>>(doacaoService.findAll(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Retorna uma doação ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<DoacaoDTO> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok().body(doacaoService.findById(id));
+		return new ResponseEntity<DoacaoDTO>(doacaoService.findById(id), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Cadastra uma doação")
 	@PostMapping
 	@Transactional
-	public ResponseEntity<DoacaoDTO> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO, UriComponentsBuilder uriBuilder) {
-		URI uri = uriBuilder.path("/doacoes/{id}").buildAndExpand(doacaoDTO.getId()).toUri();
-		return ResponseEntity.created(uri).body(doacaoService.save(doacaoDTO));
+	public ResponseEntity<DoacaoDTO> save(@RequestBody @Valid DoacaoFormDTO doacaoDTO) {
+		return new ResponseEntity<DoacaoDTO>(doacaoService.save(doacaoDTO), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Atualiza as informações de uma doação informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<DoacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid DoacaoFormDTO doacaoDTO){
-		return ResponseEntity.ok(doacaoService.update(id, doacaoDTO));
+		return new ResponseEntity<DoacaoDTO>(doacaoService.update(id, doacaoDTO), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Exclui uma doação ao informar um ID existente.")
@@ -63,6 +61,6 @@ public class DoacaoController {
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
 		doacaoService.deleteById(id);
-		return ResponseEntity.noContent().build();
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 
 public class DoadorPostFormDTO {
 	
-	private Integer id;
-	
 	@NotNull @NotEmpty
 	private String nomeDoador;
 	@NotNull @NotEmpty
@@ -28,9 +26,6 @@ public class DoadorPostFormDTO {
 	@NotNull @NotEmpty
 	private String cep;
 	
-	public Integer getId() {
-		return id;
-	}
 	public String getNomeDoador() {
 		return nomeDoador;
 	}
@@ -61,9 +56,7 @@ public class DoadorPostFormDTO {
 	public String getCep() {
 		return cep;
 	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+
 	public void setNomeDoador(String nomeDoador) {
 		this.nomeDoador = nomeDoador;
 	}

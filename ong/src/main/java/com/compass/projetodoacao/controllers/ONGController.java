@@ -1,11 +1,11 @@
 package com.compass.projetodoacao.controllers;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,28 +35,27 @@ public class ONGController {
 	@ApiOperation(value = "Retorna lista de ONGs cadastradas.")
 	@GetMapping
 	public ResponseEntity<List<ONGDTO>> findAll() {
-		return ResponseEntity.ok(ongService.findAll());
+		return new ResponseEntity<List<ONGDTO>>(ongService.findAll(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Retorna uma ONG ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<ONGDTO> findById(@PathVariable Integer id){
-		return ResponseEntity.ok(ongService.findById(id));
+		return new ResponseEntity<ONGDTO>(ongService.findById(id), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Cadastra uma ONG com endereço e telefone.")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<ONGDTO> save(@RequestBody @Valid ONGPostFormDTO ongDTO, UriComponentsBuilder uriBuilder){
-		URI uri = uriBuilder.path("/ongs").buildAndExpand(ongDTO.getId()).toUri();
-		return ResponseEntity.created(uri).body(ongService.save(ongDTO));
+		return new ResponseEntity<ONGDTO>(ongService.save(ongDTO), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Atualiza as informações de uma ONG informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<ONGDTO> update(@PathVariable Integer id, @RequestBody @Valid ONGFormDTO ongDTO){
-		return ResponseEntity.ok(ongService.update(id, ongDTO));
+		return new ResponseEntity<ONGDTO>(ongService.update(id, ongDTO), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Exclui uma ONG ao informar um ID existente.")
@@ -64,6 +63,6 @@ public class ONGController {
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		ongService.deleteById(id);
-		return ResponseEntity.noContent().build();
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -6,9 +6,7 @@ import javax.validation.constraints.NotNull;
 import com.compass.projetodoacao.entities.Endereco;
 
 public class EnderecoFormDTO {
-	
-	private Integer id;
-	
+
 	@NotNull @NotEmpty
 	private String numero;
 
@@ -27,7 +25,6 @@ public class EnderecoFormDTO {
 	public EnderecoFormDTO() {}
 	
 	public EnderecoFormDTO(Endereco obj) {
-		this.id = obj.getId();
 		this.numero = obj.getNumero();
 		this.complemento= obj.getComplemento();
 		this.bairro = obj.getBairro();
@@ -68,10 +65,6 @@ public class EnderecoFormDTO {
 		this.cidade = donatarioDTO.getCidade();
 		this.estado = donatarioDTO.getEstado();
 		this.cep = donatarioDTO.getCep();
-	}
-	
-	public Integer getId() {
-		return id;
 	}
 
 	public String getNumero() {

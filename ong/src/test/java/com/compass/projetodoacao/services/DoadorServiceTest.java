@@ -159,12 +159,10 @@ public class DoadorServiceTest {
 		optionalDoador = Optional.of(doador);
 		
 		doadorFormDTO = new DoadorFormDTO();
-		doadorFormDTO.setId(ID);
 		doadorFormDTO.setNomeDoador(NOME);
 		doadorFormDTO.setCpfDoador(CPF);
 		
 		doadorPostFormDTO = new DoadorPostFormDTO();
-		doadorPostFormDTO.setId(ID);
 		doadorPostFormDTO.setNomeDoador(NOME);
 		doadorPostFormDTO.setCpfDoador(CPF);
 		doadorPostFormDTO.setLogradouro(LOGRADOURO);

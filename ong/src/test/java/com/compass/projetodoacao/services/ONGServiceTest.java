@@ -154,11 +154,9 @@ public class ONGServiceTest {
 		optionalONG = Optional.of(ong);
 		
 		ongFormDTO = new ONGFormDTO();
-		ongFormDTO.setId(ID);
 		ongFormDTO.setFilialONG(FILIAL);
 		
 		ongPostFormDTO = new ONGPostFormDTO();
-		ongPostFormDTO.setId(ID);
 		ongPostFormDTO.setFilialONG(FILIAL);
 		ongPostFormDTO.setLogradouro(LOGRADOURO);
 		ongPostFormDTO.setNumero(NUMERO);

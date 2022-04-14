@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.compass.projetodoacao.dto.DonatarioDTO;
 import com.compass.projetodoacao.dto.DonatarioFormDTO;
 import com.compass.projetodoacao.dto.DonatarioPostFormDTO;
-import com.compass.projetodoacao.dto.EnderecoFormDTO;
-import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Donatario;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.Telefone;
@@ -26,16 +24,10 @@ public class DonatarioService {
 	@Autowired
 	private DonatarioRepository donatarioRepository;
 
-	@Autowired
-	private TelefoneService telefoneService;
-
-	@Autowired
-	private EnderecoService enderecoService;
-
 	public DonatarioDTO save(DonatarioPostFormDTO donatarioDTO) {
 		
-		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(donatarioDTO));
-		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(donatarioDTO));
+		Endereco endereco = new Endereco(donatarioDTO);
+		Telefone telefone = new Telefone(donatarioDTO.getTelefone());
 		try {
 			Donatario donatario = new Donatario();
 			donatario.adicionarEndereco(endereco);

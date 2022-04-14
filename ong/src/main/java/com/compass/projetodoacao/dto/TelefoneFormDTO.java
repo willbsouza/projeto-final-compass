@@ -4,9 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class TelefoneFormDTO {
-	
-	private Integer id;
-	
+
 	@NotNull
 	@NotEmpty
 	private String numero;
@@ -25,14 +23,6 @@ public class TelefoneFormDTO {
 	
 	public TelefoneFormDTO(DonatarioPostFormDTO donatarioDTO) {
 		this.numero = donatarioDTO.getTelefone();
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getNumero() {

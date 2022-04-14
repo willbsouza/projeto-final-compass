@@ -159,12 +159,10 @@ public class DonatarioServiceTest {
 		optionalDonatario = Optional.of(donatario);
 		
 		donatarioFormDTO = new DonatarioFormDTO();
-		donatarioFormDTO.setId(ID);
 		donatarioFormDTO.setNomeDonatario(NOME);
 		donatarioFormDTO.setCpfDonatario(CPF);
 		
 		donatarioPostFormDTO = new DonatarioPostFormDTO();
-		donatarioPostFormDTO.setId(ID);
 		donatarioPostFormDTO.setNomeDonatario(NOME);
 		donatarioPostFormDTO.setCpfDonatario(CPF);
 		donatarioPostFormDTO.setLogradouro(LOGRADOURO);

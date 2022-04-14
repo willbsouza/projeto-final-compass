@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +31,19 @@ public class ItemController {
 	@ApiOperation(value = "Retorna lista de itens cadastrados.")
 	@GetMapping
 	public ResponseEntity<List<ItemDTO>> findAll(){
-		return ResponseEntity.ok(itemService.findAll());
+		return new ResponseEntity<List<ItemDTO>>(itemService.findAll(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Retorna um item ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<ItemDTO> findById(@PathVariable Integer id){
-		return ResponseEntity.ok(itemService.findById(id));
+		return new ResponseEntity<ItemDTO>(itemService.findById(id), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Atualiza as informações de um item informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<ItemDTO> update(@PathVariable Integer id, @RequestBody @Valid ItemFormDTO itemFormDTO){
-		return ResponseEntity.ok(itemService.update(id, itemFormDTO));
+		return new ResponseEntity<ItemDTO>(itemService.update(id, itemFormDTO), HttpStatus.OK);
 	}
 }

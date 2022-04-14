@@ -138,7 +138,6 @@ public class TelefoneServiceTest {
 		optionalTelefone = Optional.of(telefone);
 		
 		telefoneDTO = new TelefoneFormDTO();
-		telefoneDTO.setId(ID);
 		telefoneDTO.setNumero(NUMERO);
 	}
 }
