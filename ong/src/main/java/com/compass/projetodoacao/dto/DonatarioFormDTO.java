@@ -5,16 +5,10 @@ import javax.validation.constraints.NotNull;
 
 public class DonatarioFormDTO {
 	
-	private Integer id;
-	
 	@NotNull @NotEmpty
 	private String nomeDonatario;
 	@NotNull @NotEmpty
 	private String cpfDonatario;
-	
-	public Integer getId() {
-		return id;
-	}
 	
 	public String getNomeDonatario() {
 		return nomeDonatario;
@@ -22,10 +16,6 @@ public class DonatarioFormDTO {
 	
 	public String getCpfDonatario() {
 		return cpfDonatario;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public void setNomeDonatario(String nomeDonatario) {

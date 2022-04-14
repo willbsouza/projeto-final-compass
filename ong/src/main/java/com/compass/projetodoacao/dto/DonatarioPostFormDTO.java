@@ -4,9 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class DonatarioPostFormDTO {
-	
-	private Integer id;
-	
+
 	@NotNull @NotEmpty
 	private String nomeDonatario;
 	@NotNull @NotEmpty
@@ -27,10 +25,6 @@ public class DonatarioPostFormDTO {
 	private String estado;
 	@NotNull @NotEmpty
 	private String cep;
-	
-	public Integer getId() {
-		return id;
-	}
 	
 	public String getNomeDonatario() {
 		return nomeDonatario;
@@ -63,10 +57,6 @@ public class DonatarioPostFormDTO {
 	}
 	public String getCep() {
 		return cep;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public void setNomeDonatario(String nomeDonatario) {

@@ -17,6 +17,12 @@ public class Telefone {
 	@NotNull
 	@NotEmpty
 	private String numero;
+	
+	public Telefone() {}
+	
+	public Telefone(String numero) {
+		this.numero = numero;
+	}
 
 	public Integer getId() {
 		return id;

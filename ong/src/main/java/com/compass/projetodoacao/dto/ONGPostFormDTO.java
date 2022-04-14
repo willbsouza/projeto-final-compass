@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 
 public class ONGPostFormDTO {
 
-	private Integer id;
-	
 	@NotNull @NotEmpty
 	private String filialONG;
 	
@@ -27,10 +25,7 @@ public class ONGPostFormDTO {
 	private String estado;
 	@NotNull @NotEmpty
 	private String cep;
-	
-	public Integer getId() {
-		return id;
-	}
+
 	public String getFilialONG() {
 		return filialONG;
 	}
@@ -57,9 +52,6 @@ public class ONGPostFormDTO {
 	}
 	public String getCep() {
 		return cep;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	public void setFilialONG(String filialONG) {
 		this.filialONG = filialONG;

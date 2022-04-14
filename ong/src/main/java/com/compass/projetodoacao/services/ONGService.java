@@ -8,17 +8,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.compass.projetodoacao.dto.EnderecoFormDTO;
 import com.compass.projetodoacao.dto.ONGDTO;
 import com.compass.projetodoacao.dto.ONGFormDTO;
 import com.compass.projetodoacao.dto.ONGPostFormDTO;
-import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.ONG;
 import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.repositories.ONGRepository;
-import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
 import com.compass.projetodoacao.services.exception.DataIntegrityViolationException;
+import com.compass.projetodoacao.services.exception.MethodArgumentNotValidException;
 import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 
 @Service
@@ -26,12 +24,6 @@ public class ONGService {
 
 	@Autowired
 	private ONGRepository ongRepository;
-
-	@Autowired
-	private TelefoneService telefoneService;
-
-	@Autowired
-	private EnderecoService enderecoService;
 
 	public List<ONGDTO> findAll() {
 		List<ONG> listONG = ongRepository.findAll();
@@ -46,8 +38,8 @@ public class ONGService {
 
 	public ONGDTO save(@Valid ONGPostFormDTO ongDTO) {
 
-		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(ongDTO));
-		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(ongDTO));
+		Endereco endereco = new Endereco(ongDTO);
+		Telefone telefone = new Telefone(ongDTO.getTelefone());
 		try {
 			ONG ong = new ONG();
 			ong.adicionarEndereco(endereco);

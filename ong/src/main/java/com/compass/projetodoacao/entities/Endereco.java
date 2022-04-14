@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.compass.projetodoacao.dto.DoadorPostFormDTO;
+import com.compass.projetodoacao.dto.DonatarioPostFormDTO;
+import com.compass.projetodoacao.dto.ONGPostFormDTO;
+
 @Entity
 public class Endereco {
 
@@ -39,6 +43,41 @@ public class Endereco {
 	@NotNull
 	@NotEmpty
 	private String cep;
+	
+	public Endereco() {
+		
+	}
+	
+	public Endereco(DoadorPostFormDTO doadorDTO) {
+		this.logradouro = doadorDTO.getLogradouro();
+		this.numero = doadorDTO.getNumero();
+		this.complemento = doadorDTO.getComplemento();
+		this.bairro = doadorDTO.getBairro();
+		this.cidade = doadorDTO.getCidade();
+		this.estado = doadorDTO.getEstado();
+		this.cep = doadorDTO.getCep();
+	}
+	
+	public Endereco(DonatarioPostFormDTO donatarioDTO) {
+		this.logradouro = donatarioDTO.getLogradouro();
+		this.numero = donatarioDTO.getNumero();
+		this.complemento = donatarioDTO.getComplemento();
+		this.bairro = donatarioDTO.getBairro();
+		this.cidade = donatarioDTO.getCidade();
+		this.estado = donatarioDTO.getEstado();
+		this.cep = donatarioDTO.getCep();
+	}
+	
+	public Endereco(ONGPostFormDTO ongDTO) {
+		this.logradouro = ongDTO.getLogradouro();
+		this.numero = ongDTO.getNumero();
+		this.complemento = ongDTO.getComplemento();
+		this.bairro = ongDTO.getBairro();
+		this.cidade = ongDTO.getCidade();
+		this.estado = ongDTO.getEstado();
+		this.cep = ongDTO.getCep();
+	}
+		
 	
 	public Integer getId() {
 		return id;

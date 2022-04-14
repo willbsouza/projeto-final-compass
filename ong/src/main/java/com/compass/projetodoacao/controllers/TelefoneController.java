@@ -1,11 +1,11 @@
 package com.compass.projetodoacao.controllers;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Telefone;
@@ -34,28 +33,27 @@ public class TelefoneController {
 	@ApiOperation(value = "Retorna lista de telefones cadastrados.")
 	@GetMapping
 	public ResponseEntity<List<Telefone>> findAll(){
-		return ResponseEntity.ok(telefoneService.findAll());
+		return new ResponseEntity<List<Telefone>>(telefoneService.findAll(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Retorna um telefone ao informar ID existente.")
 	@GetMapping("/{id}")
 	public ResponseEntity<Telefone> findById(@PathVariable Integer id){
-		return ResponseEntity.ok(telefoneService.findById(id));
+		return new ResponseEntity<Telefone>(telefoneService.findById(id), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Cadastra um telefone")
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Telefone> save(@RequestBody @Valid TelefoneFormDTO telefoneDTO, UriComponentsBuilder uriBuilder){
-		URI uri = uriBuilder.path("/telefones").buildAndExpand(telefoneDTO.getId()).toUri();
-		return ResponseEntity.created(uri).body(telefoneService.saveTelefone(telefoneDTO));
+	public ResponseEntity<Telefone> save(@RequestBody @Valid TelefoneFormDTO telefoneDTO){
+		return new ResponseEntity<Telefone>(telefoneService.saveTelefone(telefoneDTO), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Atualiza as informações de um telefone informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Telefone> update(@PathVariable Integer id, @RequestBody @Valid TelefoneFormDTO telefoneDTO){
-		return ResponseEntity.ok(telefoneService.update(id, telefoneDTO));
+		return new ResponseEntity<Telefone>(telefoneService.update(id, telefoneDTO), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Exclui um telefone ao informar um ID existente.")
@@ -63,7 +61,6 @@ public class TelefoneController {
 	@Transactional
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		telefoneService.deleteById(id);
-		return ResponseEntity.noContent().build();
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-	
 }

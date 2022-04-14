@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.compass.projetodoacao.dto.DoadorDTO;
 import com.compass.projetodoacao.dto.DoadorFormDTO;
 import com.compass.projetodoacao.dto.DoadorPostFormDTO;
-import com.compass.projetodoacao.dto.EnderecoFormDTO;
-import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Endereco;
 import com.compass.projetodoacao.entities.Telefone;
@@ -25,14 +23,7 @@ public class DoadorService {
 
 	@Autowired
 	private DoadorRepository doadorRepository;
-
-	@Autowired
-	private TelefoneService telefoneService;
-
-	@Autowired
-	private EnderecoService enderecoService;
 	
-
 	public List<DoadorDTO> findAll() {		
 		List<Doador> doadorList = doadorRepository.findAll();
 		return doadorList.stream().map(d -> new DoadorDTO(d)).collect(Collectors.toList());
@@ -47,8 +38,8 @@ public class DoadorService {
 
 	public DoadorDTO save(DoadorPostFormDTO doadorDTO) {
 		
-		Endereco endereco = enderecoService.saveEndereco(new EnderecoFormDTO(doadorDTO));
-		Telefone telefone = telefoneService.saveTelefone(new TelefoneFormDTO(doadorDTO));
+		Telefone telefone = new Telefone(doadorDTO.getTelefone());
+		Endereco endereco = new Endereco(doadorDTO);
 		try {
 			Doador doador = new Doador();
 			doador.adicionarEndereco(endereco);
