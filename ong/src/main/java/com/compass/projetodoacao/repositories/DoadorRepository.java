@@ -7,5 +7,4 @@ import com.compass.projetodoacao.entities.Doador;
 
 @Repository
 public interface DoadorRepository extends JpaRepository<Doador, Integer>{
-
 }
