@@ -9,6 +9,34 @@ import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class DoacaoFormDTO {
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setId_doador(Integer id_doador) {
+		this.id_doador = id_doador;
+	}
+
+	public void setId_ong(Integer id_ong) {
+		this.id_ong = id_ong;
+	}
+
+	public void setTipoItem(Tipo tipoItem) {
+		this.tipoItem = tipoItem;
+	}
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
+	}
+
+	public void setQuantidadeItem(Integer quantidadeItem) {
+		this.quantidadeItem = quantidadeItem;
+	}
+
+	public void setId_categoria(Integer id_categoria) {
+		this.id_categoria = id_categoria;
+	}
+
 	private Integer id;
 	
 	@NotNull

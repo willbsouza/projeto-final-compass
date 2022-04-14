@@ -7,4 +7,4 @@ spring:
       server:
         git:
           uri: https://github.com/willbsouza/microservice-repo
-          search-paths: transportador
+          search-paths: transportador2

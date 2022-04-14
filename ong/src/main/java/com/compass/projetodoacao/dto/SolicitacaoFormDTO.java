@@ -8,6 +8,26 @@ import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class SolicitacaoFormDTO {
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setId_donatario(Integer id_donatario) {
+		this.id_donatario = id_donatario;
+	}
+
+	public void setId_ong(Integer id_ong) {
+		this.id_ong = id_ong;
+	}
+
+	public void setTipoItem(Tipo tipoItem) {
+		this.tipoItem = tipoItem;
+	}
+
+	public void setQuantidadeItem(Integer quantidadeItem) {
+		this.quantidadeItem = quantidadeItem;
+	}
+
 	private Integer id;
 	
 	@NotNull

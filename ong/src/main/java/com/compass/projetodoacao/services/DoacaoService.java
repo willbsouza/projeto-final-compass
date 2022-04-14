@@ -49,7 +49,7 @@ public class DoacaoService {
 		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
 		Doador doador = doadorRepository.findById(doacaoDTO.getId_doador()).orElseThrow(
-				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
+				() -> new ObjectNotFoundException("Doador com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
 		if (doacaoDTO.getQuantidadeItem() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}
