@@ -26,9 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/itens").permitAll().antMatchers("/itens/*").permitAll()
 		.antMatchers("/ongs").permitAll().antMatchers("/ongs/*").permitAll()
 		.antMatchers("/solicitacoes").permitAll().antMatchers("/solicitacoes/*")
-		.permitAll().antMatchers("/telefones").permitAll().antMatchers("/telefones/*").permitAll()
-		.anyRequest().authenticated()
-		.and().formLogin();
+		.permitAll().antMatchers("/telefones").permitAll().antMatchers("/telefones/*").permitAll();
 	}
 	
 	@Override

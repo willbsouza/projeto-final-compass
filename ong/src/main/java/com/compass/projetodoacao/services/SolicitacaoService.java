@@ -74,7 +74,7 @@ public class SolicitacaoService {
 	public SolicitacaoDTO update(Integer id, @Valid SolicitacaoFormDTO solicitacaoDTO) {
 		
 		Solicitacao solicitacao = solicitacaoRepository.findById(id).orElseThrow(
-				() -> new ObjectNotFoundException("Solicitação com ID: " + solicitacaoDTO.getId_ong() + " não encontrado."));
+				() -> new ObjectNotFoundException("Solicitação com ID: " + id + " não encontrado."));
 		ONG ong = ongRepository.findById(solicitacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + solicitacaoDTO.getId_ong() + " não encontrado."));
 		Donatario donatario = donatarioRepository.findById(solicitacaoDTO.getId_donatario()).orElseThrow(

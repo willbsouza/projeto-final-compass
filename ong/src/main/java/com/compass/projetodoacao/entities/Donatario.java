@@ -29,15 +29,15 @@ public class Donatario {
 	private String cpf;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "donatario_id")
+	@JoinColumn(name = "id_donatario")
 	private List<Solicitacao> solicitacoes;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idDonatario")
+	@JoinColumn(name = "id_donatario")
 	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idDonatario")
+	@JoinColumn(name = "id_donatario")
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	
 	public Integer getId() {

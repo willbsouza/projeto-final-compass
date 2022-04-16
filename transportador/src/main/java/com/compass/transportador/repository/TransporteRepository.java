@@ -7,4 +7,5 @@ import com.compass.transportador.entity.Transporte;
 
 @Repository
 public interface TransporteRepository extends JpaRepository<Transporte, Integer>{
+	void deleteByIdDoacao(Integer idDoacao);
 }

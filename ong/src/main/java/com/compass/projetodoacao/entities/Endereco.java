@@ -145,7 +145,12 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-		return logradouro + ", " + numero + ", " + complemento
-				+ ", " + bairro + ", " + cidade + ", " + estado + ", cep " + cep;
+		if(complemento != null) {
+			return logradouro + ", " + numero + ", " + complemento
+					+ ", " + bairro + ", " + cidade + ", " + estado + ", cep " + cep;
+		} else {
+			return logradouro + ", " + numero + ", " + bairro
+					+ ", " + cidade + ", " + estado + ", cep " + cep;
+		}
 	}
 }

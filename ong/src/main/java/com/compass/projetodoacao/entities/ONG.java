@@ -25,19 +25,19 @@ public class ONG {
 	private String filial;
 	
 	@OneToMany
-	@JoinColumn(name = "idOng")
+	@JoinColumn(name = "id_ong")
 	private List<Doacao> doacoes;
 	
 	@OneToMany
-	@JoinColumn(name = "idOng")
+	@JoinColumn(name = "id_ong")
 	private List<Solicitacao> solicitacoes;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idOng")
+	@JoinColumn(name = "id_ong")
 	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idOng")
+	@JoinColumn(name = "id_ong")
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 
 	public Integer getId() {

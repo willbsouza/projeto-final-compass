@@ -31,15 +31,15 @@ public class Doacao {
 	private Modalidade modalidade;
 	
 	@ManyToOne
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "id_item")
 	private Item item;
 	
 	@ManyToOne
-	@JoinColumn(name = "doador_id")
+	@JoinColumn(name = "id_doador")
 	private Doador doador;
 	
 	@ManyToOne
-	@JoinColumn(name = "ong_id")
+	@JoinColumn(name = "id_ong")
 	private ONG ong;
 	
 	public Integer getId() {

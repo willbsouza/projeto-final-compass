@@ -107,7 +107,7 @@ public class DoacaoService {
 	public DoacaoDTO update(Integer id, @Valid DoacaoFormDTO doacaoDTO) {
 
 		Doacao doacao = doacaoRepository.findById(id).orElseThrow(
-				() -> new ObjectNotFoundException("Doação com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
+				() -> new ObjectNotFoundException("Doação com ID: " + id + " não encontrado."));
 		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
 		Doador doador = doadorRepository.findById(doacaoDTO.getId_doador()).orElseThrow(
@@ -115,6 +115,11 @@ public class DoacaoService {
 		if (doacaoDTO.getQuantidadeItem() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}
+		
+		if (doacao.getModalidade() == Modalidade.DELIVERY && doacaoDTO.getModalidade() == Modalidade.PRESENCIAL) {
+			transporteClient.deletarTransporte(doacao.getId());
+		}
+		
 		if (doacaoDTO.getModalidade() == Modalidade.DELIVERY) {
 			solicitarTransporte(ong, doador, doacao);
 		}

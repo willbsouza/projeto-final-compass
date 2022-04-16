@@ -24,15 +24,15 @@ public class Solicitacao {
 	private Integer quantidade;
 	
 	@ManyToOne
-	@JoinColumn(name = "donatario_id")
+	@JoinColumn(name = "id_donatario")
 	private Donatario donatario;
 
 	@ManyToOne
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "id_item")
 	private Item item;
 	
 	@ManyToOne
-	@JoinColumn(name = "ong_id")
+	@JoinColumn(name = "id_ong")
 	private ONG ong;
 	
 	public Integer getId() {
