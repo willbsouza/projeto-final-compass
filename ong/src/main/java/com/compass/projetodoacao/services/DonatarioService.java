@@ -34,6 +34,7 @@ public class DonatarioService {
 			donatario.adicionarTelefone(telefone);
 			donatario.setCpf(donatarioDTO.getCpfDonatario());
 			donatario.setNome(donatarioDTO.getNomeDonatario());
+			donatario.setSenha(donatarioDTO.getSenha());
 			donatarioRepository.save(donatario);
 			return new DonatarioDTO(donatario);
 		} catch (MethodArgumentNotValidException e) {

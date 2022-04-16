@@ -9,6 +9,8 @@ public class DoadorPostFormDTO {
 	private String nomeDoador;
 	@NotNull @NotEmpty
 	private String cpfDoador;
+	@NotNull @NotEmpty
+	private String senha;
 	
 	@NotNull @NotEmpty
 	private String telefone;
@@ -57,6 +59,12 @@ public class DoadorPostFormDTO {
 		return cep;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	public void setNomeDoador(String nomeDoador) {
 		this.nomeDoador = nomeDoador;
 	}

@@ -7,6 +7,8 @@ public class ONGFormDTO {
 
 	@NotNull @NotEmpty
 	private String filialONG;
+	@NotNull @NotEmpty
+	private String cnpj;
 	
 	public String getFilialONG() {
 		return filialONG;
@@ -14,5 +16,12 @@ public class ONGFormDTO {
 
 	public void setFilialONG(String filialONG) {
 		this.filialONG = filialONG;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 }

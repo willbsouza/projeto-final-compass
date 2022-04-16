@@ -45,6 +45,8 @@ public class ONGService {
 			ong.adicionarEndereco(endereco);
 			ong.adicionarTelefone(telefone);
 			ong.setFilial(ongDTO.getFilialONG());
+			ong.setCnpj(ongDTO.getCnpj());
+			ong.setSenha(ongDTO.getSenha());
 			ongRepository.save(ong);
 			return new ONGDTO(ong);
 		} catch (MethodArgumentNotValidException e) {
@@ -57,6 +59,7 @@ public class ONGService {
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		try {
 			ong.setFilial(ongDTO.getFilialONG());
+			ong.setCnpj(ongDTO.getCnpj());
 			return new ONGDTO(ong);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());

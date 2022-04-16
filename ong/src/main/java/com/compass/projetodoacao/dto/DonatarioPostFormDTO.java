@@ -9,6 +9,8 @@ public class DonatarioPostFormDTO {
 	private String nomeDonatario;
 	@NotNull @NotEmpty
 	private String cpfDonatario;
+	@NotNull @NotEmpty
+	private String senha;
 	
 	@NotNull @NotEmpty
 	private String telefone;
@@ -57,6 +59,14 @@ public class DonatarioPostFormDTO {
 	}
 	public String getCep() {
 		return cep;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public void setNomeDonatario(String nomeDonatario) {

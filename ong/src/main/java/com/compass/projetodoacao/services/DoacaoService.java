@@ -66,7 +66,7 @@ public class DoacaoService {
 			doacao.setOng(ong);
 			Doacao doacaoSalva = doacaoRepository.save(doacao);
 			if (doacao.getModalidade() == Modalidade.DELIVERY) {
-				solicitarTransporte(ong, doador, doacaoSalva);
+				transporteClient.solicitarTransporte(instanciarTransporte(ong, doador, doacaoSalva));
 			}
 			return new DoacaoDTO(doacao);
 		} catch (MethodArgumentNotValidException e) {
@@ -76,7 +76,7 @@ public class DoacaoService {
 		}
 	}
 
-	private TransporteDTO solicitarTransporte(ONG ong, Doador doador, Doacao doacao) {
+	private TransporteDTO instanciarTransporte(ONG ong, Doador doador, Doacao doacao) {
 
 		try {
 			TransporteDTO transporteDTO = new TransporteDTO();
@@ -87,7 +87,7 @@ public class DoacaoService {
 			transporteDTO.setDataPedido(LocalDate.now());
 			transporteDTO.setDataPrevisaoServico(LocalDate.now().plusDays(1));
 			transporteDTO.setIdDoacao(doacao.getId());
-			return transporteClient.solicitarTransporte(transporteDTO);
+			return transporteDTO;
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
 		}
@@ -105,7 +105,8 @@ public class DoacaoService {
 	}
 
 	public DoacaoDTO update(Integer id, @Valid DoacaoFormDTO doacaoDTO) {
-
+		Boolean solicitaTransporte = false;
+		Boolean atualizaTransporte = false;
 		Doacao doacao = doacaoRepository.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("Doação com ID: " + id + " não encontrado."));
 		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
@@ -114,14 +115,15 @@ public class DoacaoService {
 				() -> new ObjectNotFoundException("Doador com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
 		if (doacaoDTO.getQuantidadeItem() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
-		}
-		
+		}	
 		if (doacao.getModalidade() == Modalidade.DELIVERY && doacaoDTO.getModalidade() == Modalidade.PRESENCIAL) {
 			transporteClient.deletarTransporte(doacao.getId());
 		}
-		
-		if (doacaoDTO.getModalidade() == Modalidade.DELIVERY) {
-			solicitarTransporte(ong, doador, doacao);
+		if (doacao.getModalidade() == Modalidade.PRESENCIAL && doacaoDTO.getModalidade() == Modalidade.DELIVERY) {
+			solicitaTransporte = true;
+		}
+		if (doacao.getModalidade() == Modalidade.DELIVERY && doacaoDTO.getModalidade() == Modalidade.DELIVERY) {
+			atualizaTransporte = true;
 		}
 		try {
 			Item item = itemService.atualizarItemDoacao(doacao, doacaoDTO);
@@ -131,6 +133,13 @@ public class DoacaoService {
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setModalidade(doacaoDTO.getModalidade());
 			doacao.setOng(ong);
+			if (solicitaTransporte) {
+				transporteClient.solicitarTransporte(instanciarTransporte(ong, doador, doacao));
+			} 
+			if (atualizaTransporte) {
+				TransporteDTO transporteDTO = transporteClient.findByIdDoacao(id);
+				transporteClient.atualizarTransporte(transporteDTO.getIdDoacao(), instanciarTransporte(ong, doador, doacao));
+			}
 			return new DoacaoDTO(doacao);
 		} catch (MethodArgumentNotValidException e) {
 			throw new MethodArgumentNotValidException(e.getMessage());
@@ -143,6 +152,9 @@ public class DoacaoService {
 		Doacao doacao = doacaoRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
 		itemService.atualizaItemDeleteDoacao(doacao);
+		if (doacao.getModalidade() == Modalidade.DELIVERY) {
+			transporteClient.deletarTransporte(doacao.getId());
+		}
 		doacaoRepository.deleteById(id);
 	}
 	

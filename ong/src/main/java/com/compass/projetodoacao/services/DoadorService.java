@@ -46,6 +46,7 @@ public class DoadorService {
 			doador.adicionarTelefone(telefone);
 			doador.setCpf(doadorDTO.getCpfDoador());
 			doador.setNome(doadorDTO.getNomeDoador());
+			doador.setSenha(doadorDTO.getSenha());
 			doadorRepository.save(doador);
 			return new DoadorDTO(doador);
 		} catch (MethodArgumentNotValidException e) {

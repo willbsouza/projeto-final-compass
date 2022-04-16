@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 @Entity
 public class Doador{
 
@@ -27,6 +29,10 @@ public class Doador{
 	@NotEmpty
 	@NotNull
 	private String cpf;
+	
+	@NotEmpty
+	@NotNull
+	private String senha;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_doador")
@@ -62,6 +68,14 @@ public class Doador{
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
 	}
 
 	public List<Telefone> getTelefones() {

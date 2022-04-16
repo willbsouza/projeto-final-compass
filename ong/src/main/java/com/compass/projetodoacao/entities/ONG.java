@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 @Entity
 public class ONG {
 	
@@ -23,6 +25,14 @@ public class ONG {
 	@NotNull
 	@NotEmpty
 	private String filial;
+	
+	@NotNull
+	@NotEmpty
+	private String cnpj;
+	
+	@NotNull
+	@NotEmpty
+	private String senha;
 	
 	@OneToMany
 	@JoinColumn(name = "id_ong")
@@ -50,6 +60,22 @@ public class ONG {
 	
 	public String getFilial() {
 		return filial;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
 	}
 
 	public void setFilial(String filial) {

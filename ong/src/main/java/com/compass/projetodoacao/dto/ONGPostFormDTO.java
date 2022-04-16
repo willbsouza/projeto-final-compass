@@ -8,6 +8,14 @@ public class ONGPostFormDTO {
 	@NotNull @NotEmpty
 	private String filialONG;
 	
+	@NotNull
+	@NotEmpty
+	private String cnpj;
+	
+	@NotNull
+	@NotEmpty
+	private String senha;
+	
 	@NotNull @NotEmpty
 	private String telefone;
 	
@@ -52,6 +60,18 @@ public class ONGPostFormDTO {
 	}
 	public String getCep() {
 		return cep;
+	}
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	public void setFilialONG(String filialONG) {
 		this.filialONG = filialONG;
