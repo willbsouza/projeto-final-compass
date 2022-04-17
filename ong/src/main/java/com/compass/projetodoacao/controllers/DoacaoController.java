@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
+import com.compass.projetodoacao.dto.DoacaoPutFormDTO;
 import com.compass.projetodoacao.services.DoacaoService;
 
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +53,7 @@ public class DoacaoController {
 	@ApiOperation(value = "Atualiza as informações de uma doação informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<DoacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid DoacaoFormDTO doacaoDTO){
+	public ResponseEntity<DoacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid DoacaoPutFormDTO doacaoDTO){
 		return new ResponseEntity<DoacaoDTO>(doacaoService.update(id, doacaoDTO), HttpStatus.OK);
 	}
 	

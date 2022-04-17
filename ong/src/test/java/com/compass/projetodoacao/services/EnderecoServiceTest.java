@@ -55,7 +55,7 @@ public class EnderecoServiceTest {
 	}
 	
 	@Test
-	void deveriaRetornarUmTelefoneAoBuscarPorId() {
+	void deveriaRetornarUmEnderecoAoBuscarPorId() {
 		when(enderecoRepository.findById(anyInt())).thenReturn(optionalEndereco);
 
 		Endereco response = enderecoService.findById(endereco.getId());
@@ -85,7 +85,7 @@ public class EnderecoServiceTest {
 	}
 
 	@Test
-	void deveriaRetornarUmaListaDeTelefones() {
+	void deveriaRetornarUmaListaDeEnderecos() {
 		when(enderecoRepository.findAll()).thenReturn(List.of(endereco));
 
 		List<Endereco> response = enderecoService.findAll();
@@ -104,7 +104,7 @@ public class EnderecoServiceTest {
 	}
 
 	@Test
-	void deveriaCriarUmTelefone() {
+	void deveriaCriarUmEndereco() {
 		when(enderecoRepository.save(any())).thenReturn(endereco);
 
 		Endereco response = enderecoService.saveEndereco(enderecoDTO);
@@ -122,7 +122,7 @@ public class EnderecoServiceTest {
 	}
 	
 	@Test
-	void deveriaAtualizarUmTelefoneComSucesso() {
+	void deveriaAtualizarUmEnderecoComSucesso() {
 		when(enderecoRepository.findById(any())).thenReturn(optionalEndereco);
 		Endereco response = enderecoService.update(anyInt(), enderecoDTO);
 
@@ -139,16 +139,16 @@ public class EnderecoServiceTest {
 	}
 
 	@Test
-	void deveriaDeletarUmTelefoneComSucesso() {
+	void deveriaDeletarUmEnderecoComSucesso() {
 		when(enderecoRepository.findById(anyInt())).thenReturn(optionalEndereco);
-		Mockito.doNothing().when(enderecoService).deleteById(anyInt());
+		Mockito.doNothing().when(enderecoRepository).deleteById(anyInt());
 		enderecoService.deleteById(ID);
 
 		verify(enderecoRepository, times(1)).deleteById(anyInt());
 	}
 
 	@Test
-	void deveriaRetornarUmaObjectNotFoundExceptionAoTentarDeletarUmTelefone() {
+	void deveriaRetornarUmaObjectNotFoundExceptionAoTentarDeletarUmEndereco() {
 		when(enderecoRepository.findById(anyInt()))
 				.thenThrow(new ObjectNotFoundException("ID: " + ID + " não encontrado."));
 		try {

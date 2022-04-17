@@ -144,7 +144,6 @@ public class ItemServiceTest {
 		itemFormDTO = new ItemFormDTO(item);
 		
 		doacaoFormDTO = new DoacaoFormDTO();
-		doacaoFormDTO.setId(ID);
 		doacaoFormDTO.setId_categoria(ID);
 		doacaoFormDTO.setId_doador(ID);
 		doacaoFormDTO.setId_ong(ID);

@@ -2,7 +2,6 @@ package com.compass.projetodoacao.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.compass.projetodoacao.dto.SolicitacaoDTO;
 import com.compass.projetodoacao.dto.SolicitacaoFormDTO;
+import com.compass.projetodoacao.dto.SolicitacaoPutFormDTO;
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.entities.Donatario;
 import com.compass.projetodoacao.entities.Item;
@@ -58,19 +58,22 @@ public class SolicitacaoServiceTest {
 	private Solicitacao solicitacao;
 
 	private SolicitacaoFormDTO solicitacaoFormDTO;
+	
+	private SolicitacaoPutFormDTO solicitacaoPutFormDTO;
 
 	private ONG ong;
 
 	private Optional<Solicitacao> solicitacaoOpt;
 
 	private Donatario donatario;
-	private Optional<ONG> ongOpt;
-	private Optional<Donatario> donatarioOpt;
 	private static final Integer QUANTIDADETOTAL = 10;
 	private static final Integer ID = 1;
 	private static final String FILIAL = "Recife";
 	private static final String NOME = "João";
 	private static final String CPF = "12345678950";
+	private static final String CNPJ = "12345678901234";
+	private static final String SENHA = "12345678";
+	
 
 	@BeforeEach
 	void setUp() {
@@ -144,53 +147,20 @@ public class SolicitacaoServiceTest {
 		}
 	}
 
-	@Test
-	void deveriaCadastrarUmaSolicitacao() {
-		when(ongRepository.findById(anyInt())).thenReturn(ongOpt);
-		when(donatarioRepository.findById(anyInt())).thenReturn(donatarioOpt);
-		when(itemService.atualizarItemPostSolicitacao(any())).thenReturn(item);
-
-		SolicitacaoDTO response = solicitacaoService.save(solicitacaoFormDTO);
-
-		assertNotNull(response);
-		assertEquals(SolicitacaoDTO.class, response.getClass());
-		assertEquals(NOME, response.getNomeDonatario());
-		assertEquals(Tipo.BERMUDA, response.getItem());
-		assertEquals(QUANTIDADETOTAL, response.getQuantidadeItem());
-		assertEquals(FILIAL, response.getFilialOng());
-		assertEquals(LocalDate.now(), response.getDataCadastro());
-	}
-
-	@Test
-	void deveriaAtualizarUmaSolicitacaoComSucesso() {
-		when(solicitacaoRepository.findById(anyInt())).thenReturn(solicitacaoOpt);
-		when(ongRepository.findById(anyInt())).thenReturn(ongOpt);
-		when(donatarioRepository.findById(anyInt())).thenReturn(donatarioOpt);
-		when(itemService.atualizarItemPutSolicitacao(any(), any())).thenReturn(item);
-
-		SolicitacaoDTO response = solicitacaoService.update(anyInt(), solicitacaoFormDTO);
-
-		assertNotNull(response);
-		assertEquals(SolicitacaoDTO.class, response.getClass());
-		assertEquals(NOME, response.getNomeDonatario());
-		assertEquals(Tipo.BERMUDA, response.getItem());
-		assertEquals(QUANTIDADETOTAL, response.getQuantidadeItem());
-		assertEquals(FILIAL, response.getFilialOng());
-		assertEquals(LocalDate.now(), response.getDataCadastro());
-	}
-
 	private void iniciarSolicitacao() {
 
 		ong = new ONG();
 		ong.setId(ID);
 		ong.setFilial(FILIAL);
-		ongOpt = Optional.of(ong);
+		ong.setCnpj(CNPJ);
+		ong.setSenha(SENHA);
+		
 
 		donatario = new Donatario();
 		donatario.setId(ID);
 		donatario.setNome(NOME);
 		donatario.setCpf(CPF);
-		donatarioOpt = Optional.of(donatario);
+		donatario.setSenha(SENHA);
 
 		categoria = new Categoria();
 		categoria.setId(ID);
@@ -210,15 +180,16 @@ public class SolicitacaoServiceTest {
 		solicitacao.setDataCadastro(LocalDate.now());
 		solicitacao.setQuantidade(QUANTIDADETOTAL);
 		solicitacaoOpt = Optional.of(solicitacao);
-		
 
 		solicitacaoFormDTO = new SolicitacaoFormDTO();
-		solicitacaoFormDTO.setId(ID);
 		solicitacaoFormDTO.setId_donatario(ID);
 		solicitacaoFormDTO.setId_ong(ID);
 		solicitacaoFormDTO.setTipoItem(Tipo.BERMUDA);
 		solicitacaoFormDTO.setQuantidadeItem(QUANTIDADETOTAL);
-
+		
+		solicitacaoPutFormDTO = new SolicitacaoPutFormDTO();
+		solicitacaoPutFormDTO.setId_ong(ID);
+		solicitacaoPutFormDTO.setQuantidadeItem(QUANTIDADETOTAL);
+		solicitacaoPutFormDTO.setTipoItem(Tipo.BERMUDA);
 	}
-
 }

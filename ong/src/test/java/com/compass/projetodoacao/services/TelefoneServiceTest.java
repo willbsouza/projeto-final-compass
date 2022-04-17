@@ -28,7 +28,7 @@ import com.compass.projetodoacao.services.exception.ObjectNotFoundException;
 public class TelefoneServiceTest {
 
 	@InjectMocks
-	private TelefoneService telefoneService;
+	private TransporteService telefoneService;
 
 	@Mock
 	private TelefoneRepository telefoneRepository;

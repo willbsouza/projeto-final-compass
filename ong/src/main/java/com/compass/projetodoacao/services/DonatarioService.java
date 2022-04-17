@@ -70,4 +70,26 @@ public class DonatarioService {
 		findById(id);
 		donatarioRepository.deleteById(id);	
 	}
+	
+	public DonatarioDTO salvarEndereco(Integer id, @Valid Endereco endereco) {
+		Donatario donatario = donatarioRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		try {
+			donatario.adicionarEndereco(endereco);
+			return new DonatarioDTO(donatario);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
+	}
+	
+	public DonatarioDTO salvarTelefone(Integer id, @Valid Telefone telefone) {
+		Donatario donatario = donatarioRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		try {
+			donatario.adicionarTelefone(telefone);
+			return new DonatarioDTO(donatario);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
+	}
 }

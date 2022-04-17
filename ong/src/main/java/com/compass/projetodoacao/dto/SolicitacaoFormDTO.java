@@ -8,8 +8,6 @@ import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class SolicitacaoFormDTO {
 	
-	private Integer id;
-
 	@NotNull
 	private Integer id_donatario;
 	
@@ -22,10 +20,6 @@ public class SolicitacaoFormDTO {
 	
 	@NotNull
 	private Integer quantidadeItem;
-	
-	public Integer getId() {
-		return id;
-	}
 
 	public Integer getId_donatario() {
 		return id_donatario;
@@ -43,10 +37,6 @@ public class SolicitacaoFormDTO {
 		return quantidadeItem;
 	}
 	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public void setId_donatario(Integer id_donatario) {
 		this.id_donatario = id_donatario;
 	}

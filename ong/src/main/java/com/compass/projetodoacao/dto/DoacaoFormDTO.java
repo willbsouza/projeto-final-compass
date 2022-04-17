@@ -4,35 +4,43 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
+import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.enums.Modalidade;
 import com.compass.projetodoacao.entities.enums.Tipo;
 
 public class DoacaoFormDTO {
 
-	private Integer id;
-
 	@NotNull
 	private Integer id_doador;
-	
+
 	@NotNull
 	private Integer id_ong;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Tipo tipoItem;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
-	
+
 	@NotNull
 	private Integer quantidadeItem;
-	
+
 	@NotNull
 	private Integer id_categoria;
-	
-	public Integer getId() {
-		return id;
+
+	public DoacaoFormDTO() {
+
+	}
+
+	public DoacaoFormDTO(DoacaoPutFormDTO doacao, Doador doador) {
+		this.id_categoria = doacao.getId_categoria();
+		this.id_doador = doador.getId();
+		this.id_ong = doacao.getId_ong();
+		this.modalidade = doacao.getModalidade();
+		this.quantidadeItem = doacao.getQuantidadeItem();
+		this.tipoItem = doacao.getTipoItem();
 	}
 
 	public Integer getId_doador() {
@@ -42,11 +50,11 @@ public class DoacaoFormDTO {
 	public Integer getId_ong() {
 		return id_ong;
 	}
-	
+
 	public Tipo getTipoItem() {
 		return tipoItem;
 	}
-	
+
 	public Modalidade getModalidade() {
 		return modalidade;
 	}
@@ -57,10 +65,6 @@ public class DoacaoFormDTO {
 
 	public Integer getId_categoria() {
 		return id_categoria;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public void setId_doador(Integer id_doador) {

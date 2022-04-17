@@ -46,7 +46,7 @@ public class EnderecoService {
 
 	public Endereco update(@Valid Integer id, EnderecoFormDTO body) {
 		Endereco endereco = enderecoRepository.findById(id)
-				.orElseThrow(() -> new ObjectNotFoundException("Endereco não encontrado. Id invalido"));
+				.orElseThrow(() -> new ObjectNotFoundException("Endereco não encontrado. Id inválido"));
 		endereco.setLogradouro(body.getLogradouro());
 		endereco.setBairro(body.getBairro());
 		endereco.setNumero(body.getNumero());

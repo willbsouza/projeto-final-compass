@@ -36,7 +36,7 @@ public class DonatarioServiceTest {
 	private DonatarioRepository donatarioRepository;
 
 	@Mock
-	private TelefoneService telefoneService;
+	private TransporteService telefoneService;
 
 	@Mock
 	private EnderecoService enderecoService;
@@ -52,6 +52,7 @@ public class DonatarioServiceTest {
 	private static final Integer ID = 1;
 	private static final String NOME = "João";
 	private static final String CPF = "12345678950";
+	private static final String SENHA = "12345678";
 	private static final String LOGRADOURO = "Avenida Um";
 	private static final String NUMERO = "123";
 	private static final String COMPLEMENTO = "Sem Complemento";
@@ -155,6 +156,7 @@ public class DonatarioServiceTest {
 		donatario.setId(ID);
 		donatario.setNome(NOME);
 		donatario.setCpf(CPF);
+		donatario.setSenha(SENHA);
 		
 		optionalDonatario = Optional.of(donatario);
 		
@@ -165,6 +167,7 @@ public class DonatarioServiceTest {
 		donatarioPostFormDTO = new DonatarioPostFormDTO();
 		donatarioPostFormDTO.setNomeDonatario(NOME);
 		donatarioPostFormDTO.setCpfDonatario(CPF);
+		donatarioPostFormDTO.setSenha(SENHA);
 		donatarioPostFormDTO.setLogradouro(LOGRADOURO);
 		donatarioPostFormDTO.setNumero(NUMERO);
 		donatarioPostFormDTO.setComplemento(COMPLEMENTO);

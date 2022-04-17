@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.compass.projetodoacao.dto.SolicitacaoDTO;
 import com.compass.projetodoacao.dto.SolicitacaoFormDTO;
+import com.compass.projetodoacao.dto.SolicitacaoPutFormDTO;
 import com.compass.projetodoacao.services.SolicitacaoService;
 
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +53,7 @@ public class SolicitacaoController {
 	@ApiOperation(value = "Atualiza as informações de uma solicitação informando um ID existente.")
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<SolicitacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid SolicitacaoFormDTO solicitacaoDTO){
+	public ResponseEntity<SolicitacaoDTO> update(@PathVariable Integer id, @RequestBody @Valid SolicitacaoPutFormDTO solicitacaoDTO){
 		return new ResponseEntity<SolicitacaoDTO>(solicitacaoService.update(id, solicitacaoDTO), HttpStatus.OK);
 	}
 	

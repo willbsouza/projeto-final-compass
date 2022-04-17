@@ -36,7 +36,7 @@ public class ONGServiceTest {
 	private ONGRepository ongRepository;
 
 	@Mock
-	private TelefoneService telefoneService;
+	private TransporteService telefoneService;
 
 	@Mock
 	private EnderecoService enderecoService;
@@ -51,6 +51,8 @@ public class ONGServiceTest {
 	
 	private static final Integer ID = 1;
 	private static final String FILIAL = "Filial Recife";
+	private static final String CNPJ = "12345678901234";
+	private static final String SENHA = "12345678";
 	private static final String LOGRADOURO = "Avenida Um";
 	private static final String NUMERO = "123";
 	private static final String COMPLEMENTO = "Sem Complemento";
@@ -76,6 +78,7 @@ public class ONGServiceTest {
 		assertEquals(ONGDTO.class, response.get(0).getClass());
 		assertEquals(ID, response.get(0).getId());
 		assertEquals(FILIAL, response.get(0).getFilial());
+		assertEquals(CNPJ, response.get(0).getCnpj());
 	}
 	
 	@Test
@@ -88,6 +91,7 @@ public class ONGServiceTest {
 		assertEquals(ONGDTO.class, response.getClass());
 		assertEquals(ID, response.getId());
 		assertEquals(FILIAL, response.getFilial());
+		assertEquals(CNPJ, response.getCnpj());
 	}
 
 	@Test
@@ -132,6 +136,7 @@ public class ONGServiceTest {
 		assertNotNull(response);
 		assertEquals(ONGDTO.class, response.getClass());
 		assertEquals(FILIAL, response.getFilial());
+		assertEquals(CNPJ, response.getCnpj());
 	}
 	
 	@Test
@@ -143,6 +148,7 @@ public class ONGServiceTest {
 		assertNotNull(response);
 		assertEquals(ONGDTO.class, response.getClass());
 		assertEquals(FILIAL, response.getFilial());
+		assertEquals(CNPJ, response.getCnpj());
 	}
 	
 	private void iniciarONG() {
@@ -150,14 +156,19 @@ public class ONGServiceTest {
 		ong = new ONG();
 		ong.setId(ID);
 		ong.setFilial(FILIAL);
+		ong.setCnpj(CNPJ);
+		ong.setSenha(SENHA);
 		
 		optionalONG = Optional.of(ong);
 		
 		ongFormDTO = new ONGFormDTO();
 		ongFormDTO.setFilialONG(FILIAL);
+		ongFormDTO.setCnpj(CNPJ);
 		
 		ongPostFormDTO = new ONGPostFormDTO();
 		ongPostFormDTO.setFilialONG(FILIAL);
+		ongPostFormDTO.setCnpj(CNPJ);
+		ongPostFormDTO.setSenha(SENHA);
 		ongPostFormDTO.setLogradouro(LOGRADOURO);
 		ongPostFormDTO.setNumero(NUMERO);
 		ongPostFormDTO.setComplemento(COMPLEMENTO);

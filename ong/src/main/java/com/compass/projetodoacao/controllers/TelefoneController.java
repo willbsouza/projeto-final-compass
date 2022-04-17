@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.compass.projetodoacao.dto.TelefoneFormDTO;
 import com.compass.projetodoacao.entities.Telefone;
-import com.compass.projetodoacao.services.TelefoneService;
+import com.compass.projetodoacao.services.TransporteService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 public class TelefoneController {
 
 	@Autowired
-	private TelefoneService telefoneService;
+	private TransporteService telefoneService;
 	
 	@ApiOperation(value = "Retorna lista de telefones cadastrados.")
 	@GetMapping

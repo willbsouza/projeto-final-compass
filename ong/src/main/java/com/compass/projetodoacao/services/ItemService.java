@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
+import com.compass.projetodoacao.dto.DoacaoPutFormDTO;
 import com.compass.projetodoacao.dto.ItemDTO;
 import com.compass.projetodoacao.dto.ItemFormDTO;
 import com.compass.projetodoacao.dto.SolicitacaoFormDTO;
+import com.compass.projetodoacao.dto.SolicitacaoPutFormDTO;
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.entities.Doacao;
+import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.entities.Solicitacao;
 import com.compass.projetodoacao.repositories.CategoriaRepository;
@@ -87,16 +90,17 @@ public class ItemService {
 		return new ItemDTO(item);
 	}
 
-	public Item atualizarItemDoacao(Doacao doacaoAnterior, DoacaoFormDTO doacaoAtualizada) {
+	public Item atualizarItemDoacao(Doacao doacaoAnterior, DoacaoPutFormDTO doacaoAtualizada) {
 
 		Categoria categoria = categoriaRepository.findById(doacaoAtualizada.getId_categoria())
 				.orElseThrow(() -> new ObjectNotFoundException(
 						"Categoria ID: " + doacaoAtualizada.getId_categoria() + " não encontrado."));
+		Doador doador = doacaoAnterior.getDoador();
 		Item itemAntigo = itemRepository.findByTipo(doacaoAnterior.getItem().getTipo());
 		Item itemNovo = itemRepository.findByTipo(doacaoAtualizada.getTipoItem());
 		itemAntigo.setQuantidadeTotal(itemAntigo.getQuantidadeTotal() - doacaoAnterior.getQuantidade());
 		if (itemNovo == null) {
-			return save(doacaoAtualizada);
+			return save(new DoacaoFormDTO(doacaoAtualizada, doador));
 		}
 		itemNovo.setQuantidadeTotal(itemNovo.getQuantidadeTotal() + doacaoAtualizada.getQuantidadeItem());
 		itemNovo.setCategoria(categoria);
@@ -120,7 +124,7 @@ public class ItemService {
 		return item;
 	}
 
-	public Item atualizarItemPutSolicitacao(Solicitacao solicitacaoAnterior, SolicitacaoFormDTO solicitacaoAtualizada) {
+	public Item atualizarItemPutSolicitacao(Solicitacao solicitacaoAnterior, SolicitacaoPutFormDTO solicitacaoAtualizada) {
 		Item itemNovo = itemRepository.findByTipo(solicitacaoAtualizada.getTipoItem());
 		Item itemAntigo = itemRepository.findByTipo(solicitacaoAnterior.getItem().getTipo());
 		if (itemNovo == null) {

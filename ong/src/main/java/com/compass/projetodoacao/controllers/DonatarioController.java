@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.compass.projetodoacao.dto.DonatarioDTO;
 import com.compass.projetodoacao.dto.DonatarioFormDTO;
 import com.compass.projetodoacao.dto.DonatarioPostFormDTO;
+import com.compass.projetodoacao.entities.Endereco;
+import com.compass.projetodoacao.entities.Telefone;
 import com.compass.projetodoacao.services.DonatarioService;
 
 import io.swagger.annotations.ApiOperation;
@@ -63,5 +65,19 @@ public class DonatarioController {
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		donatarioService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "Cadastra um endereço para um donatário")
+	@PutMapping("/{id}/enderecos")
+	@Transactional
+	public ResponseEntity<DonatarioDTO> cadastrarEndereco(@PathVariable Integer id, @RequestBody @Valid Endereco endereco){
+		return new ResponseEntity<DonatarioDTO>(donatarioService.salvarEndereco(id, endereco), HttpStatus.CREATED);
+	}
+	
+	@ApiOperation(value = "Cadastra um telefone para um donatário")
+	@PutMapping("/{id}/telefones")
+	@Transactional
+	public ResponseEntity<DonatarioDTO> cadastrarTelefone(@PathVariable Integer id, @RequestBody @Valid Telefone telefone){
+		return new ResponseEntity<DonatarioDTO>(donatarioService.salvarTelefone(id, telefone), HttpStatus.CREATED);
 	}
 }

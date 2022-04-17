@@ -70,4 +70,26 @@ public class DoadorService {
 		findById(id);
 		doadorRepository.deleteById(id);		
 	}
+
+	public DoadorDTO salvarEndereco(Integer id, @Valid Endereco endereco) {
+		Doador doador = doadorRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		try {
+			doador.adicionarEndereco(endereco);
+			return new DoadorDTO(doador);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
+	}
+	
+	public DoadorDTO salvarTelefone(Integer id, @Valid Telefone telefone) {
+		Doador doador = doadorRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("ID: " + id + " não encontrado."));
+		try {
+			doador.adicionarTelefone(telefone);
+			return new DoadorDTO(doador);
+		} catch (MethodArgumentNotValidException e) {
+			throw new MethodArgumentNotValidException(e.getMessage());
+		}
+	}
 }

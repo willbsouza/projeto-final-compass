@@ -23,11 +23,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.compass.projetodoacao.client.TransporteClient;
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
+import com.compass.projetodoacao.dto.DoacaoPutFormDTO;
 import com.compass.projetodoacao.entities.Categoria;
 import com.compass.projetodoacao.entities.Doador;
 import com.compass.projetodoacao.entities.Item;
 import com.compass.projetodoacao.entities.ONG;
 import com.compass.projetodoacao.entities.Doacao;
+import com.compass.projetodoacao.entities.enums.Modalidade;
 import com.compass.projetodoacao.entities.enums.Tipo;
 import com.compass.projetodoacao.repositories.DoacaoRepository;
 import com.compass.projetodoacao.repositories.DoadorRepository;
@@ -62,6 +64,8 @@ public class DoacaoServiceTest {
 	private Doacao doacao;
 
 	private DoacaoFormDTO doacaoFormDTO;
+	
+	private DoacaoPutFormDTO doacaoPutFormDTO;
 
 	private ONG ong;
 
@@ -75,6 +79,8 @@ public class DoacaoServiceTest {
 	private static final String FILIAL = "Recife";
 	private static final String NOME = "João";
 	private static final String CPF = "12345678950";
+	private static final String CNPJ = "12345678901234";
+	private static final String SENHA = "12345678";
 
 	@BeforeEach
 	void setUp() {
@@ -172,7 +178,7 @@ public class DoacaoServiceTest {
 		when(doadorRepository.findById(anyInt())).thenReturn(doadorOpt);
 		when(itemService.atualizarItemDoacao(any(), any())).thenReturn(item);
 
-		DoacaoDTO response = doacaoService.update(anyInt(), doacaoFormDTO);
+		DoacaoDTO response = doacaoService.update(anyInt(), doacaoPutFormDTO);
 
 		assertNotNull(response);
 		assertEquals(DoacaoDTO.class, response.getClass());
@@ -188,12 +194,16 @@ public class DoacaoServiceTest {
 		ong = new ONG();
 		ong.setId(ID);
 		ong.setFilial(FILIAL);
+		ong.setCnpj(CNPJ);
+		ong.setSenha(SENHA);
 		ongOpt = Optional.of(ong);
 
 		doador = new Doador();
 		doador.setId(ID);
 		doador.setNome(NOME);
 		doador.setCpf(CPF);
+		doador.setSenha(SENHA);
+		
 		doadorOpt = Optional.of(doador);
 
 		categoria = new Categoria();
@@ -213,13 +223,21 @@ public class DoacaoServiceTest {
 		doacao.setItem(item);
 		doacao.setDataCadastro(LocalDate.now());
 		doacao.setQuantidade(QUANTIDADETOTAL);
+		doacao.setModalidade(Modalidade.PRESENCIAL);
 		doacaoOpt = Optional.of(doacao);
 		
 		doacaoFormDTO = new DoacaoFormDTO();
-		doacaoFormDTO.setId(ID);
 		doacaoFormDTO.setId_doador(ID);
 		doacaoFormDTO.setId_ong(ID);
 		doacaoFormDTO.setTipoItem(Tipo.BERMUDA);
 		doacaoFormDTO.setQuantidadeItem(QUANTIDADETOTAL);
+		doacaoFormDTO.setModalidade(Modalidade.PRESENCIAL);
+		
+		doacaoPutFormDTO = new DoacaoPutFormDTO();
+		doacaoPutFormDTO.setId_ong(ID);
+		doacaoPutFormDTO.setId_categoria(ID);
+		doacaoPutFormDTO.setTipoItem(Tipo.BERMUDA);
+		doacaoPutFormDTO.setModalidade(Modalidade.PRESENCIAL);
+		doacaoPutFormDTO.setQuantidadeItem(QUANTIDADETOTAL);
 	}	
 }

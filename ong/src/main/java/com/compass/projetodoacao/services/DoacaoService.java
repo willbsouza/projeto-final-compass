@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.compass.projetodoacao.client.TransporteClient;
 import com.compass.projetodoacao.dto.DoacaoDTO;
 import com.compass.projetodoacao.dto.DoacaoFormDTO;
+import com.compass.projetodoacao.dto.DoacaoPutFormDTO;
 import com.compass.projetodoacao.dto.TransporteDTO;
 import com.compass.projetodoacao.entities.Doacao;
 import com.compass.projetodoacao.entities.Doador;
@@ -104,15 +105,14 @@ public class DoacaoService {
 		return new DoacaoDTO(doacao);
 	}
 
-	public DoacaoDTO update(Integer id, @Valid DoacaoFormDTO doacaoDTO) {
+	public DoacaoDTO update(Integer id, @Valid DoacaoPutFormDTO doacaoDTO) {
 		Boolean solicitaTransporte = false;
 		Boolean atualizaTransporte = false;
 		Doacao doacao = doacaoRepository.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("Doação com ID: " + id + " não encontrado."));
 		ONG ong = ongRepository.findById(doacaoDTO.getId_ong()).orElseThrow(
 				() -> new ObjectNotFoundException("ONG com ID: " + doacaoDTO.getId_ong() + " não encontrado."));
-		Doador doador = doadorRepository.findById(doacaoDTO.getId_doador()).orElseThrow(
-				() -> new ObjectNotFoundException("Doador com ID: " + doacaoDTO.getId_doador() + " não encontrado."));
+		Doador doador = doacao.getDoador();
 		if (doacaoDTO.getQuantidadeItem() < 1) {
 			throw new InvalidQuantityException("Quantidade menor que 1.");
 		}	
@@ -128,7 +128,6 @@ public class DoacaoService {
 		try {
 			Item item = itemService.atualizarItemDoacao(doacao, doacaoDTO);
 			doacao.setItem(item);
-			doacao.setDoador(doador);
 			doacao.setQuantidade(doacaoDTO.getQuantidadeItem());
 			doacao.setDataCadastro(LocalDate.now());
 			doacao.setModalidade(doacaoDTO.getModalidade());
